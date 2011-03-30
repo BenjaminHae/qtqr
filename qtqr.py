@@ -10,10 +10,8 @@
 #
 # copyright (C) 2011 Ramiro Algozino <algozino@gmail.com>
 
-import sys #, os, subprocess
+import sys
 from PyQt4 import QtCore, QtGui
-# import Image
-# import zbar
 from qrtools import QR
 
 class MainWindow(QtGui.QMainWindow): 
