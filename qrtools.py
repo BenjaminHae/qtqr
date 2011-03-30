@@ -26,6 +26,7 @@ import shutil
 import hashlib
 import zbar
 import Image
+import re
 
 class QR(object):
 
@@ -35,10 +36,10 @@ class QR(object):
         'url' : lambda data: 'http://' + re.compile(
                 r'^http://', re.IGNORECASE
             ).sub('', str(data)),
-        'email' : 'mailto:' : lambda data: 'mailto:' + re.compile(
+        'email' :lambda data: 'mailto:' + re.compile(
                 r'^mailto:', re.IGNORECASE
             ).sub('', str(data)),
-        'telephone' : 'tel:' : lambda data: 'tel:' + re.compile(
+        'telephone' : lambda data: 'tel:' + re.compile(
                 r'^tel:', re.IGNORECASE
             ).sub('', str(data)),
     }
