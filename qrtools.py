@@ -39,9 +39,11 @@ class QR(object):
         'email' :lambda data: 'mailto:' + re.compile(
                 r'^mailto:', re.IGNORECASE
             ).sub('', str(data)),
+        'emailmessage' : lambda data : 'MATMSG:TO:' + str(data[0]) + ';SUB:' + str(data[1]) + ';BODY:' + str(data[2]) + ';;',
         'telephone' : lambda data: 'tel:' + re.compile(
                 r'^tel:', re.IGNORECASE
             ).sub('', str(data)),
+        'sms' : lambda data : 'SMSTO:' + str(data[0]) + ':' + str(data[1]),
     }
 
     data_decode = {}
