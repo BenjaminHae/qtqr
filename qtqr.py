@@ -22,28 +22,37 @@ class MainWindow(QtGui.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(u'icon.png'))
         self.w = QtGui.QWidget()
         self.setCentralWidget(self.w)
+        self.optionsGroup = QtGui.QGroupBox(u'Parameters:')
         self.lineEdit = QtGui.QLineEdit()
         self.l1 = QtGui.QLabel(u'Insert &text to be encoded:')
-        self.qrcode = QtGui.QLabel(u"Start typing to create QRcode.")
+        self.qrcode = QtGui.QLabel(u'\n\nStart typing to create QRcode.\n\n')
+        self.qrcode.setAlignment(QtCore.Qt.AlignHCenter)
         self.l2 = QtGui.QLabel(u'&Pixel Size:')
         self.pixelSize = QtGui.QSpinBox()
+        self.l3 = QtGui.QLabel(u'&EC Level:')
+        self.ecLevel = QtGui.QComboBox() #LMQH
+        self.ecLevel.addItems((u'Lowest',u'Medium',u'Q',u'Highest'))
+        self.l4 = QtGui.QLabel(u'&Margin Size:')
+        self.marginSize = QtGui.QSpinBox()
         self.saveButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'document-save'), u'&Save QRCode')
-        self.exitButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'application-exit'),u'&Exit')
-        self.decodeButton = QtGui.QPushButton(u'&Decode')
+        self.exitButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'application-exit'),u'E&xit')
+        self.decodeButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'preview-file'),u'&Decode')
         
         self.decodeMenu = QtGui.QMenu()
-        self.decodeFileAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'document-open'),
-                                                          u'Decode from File')
-        self.decodeWebcamAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'image-png'), 
-                                                            u'Decode from WebCam')
+        self.decodeFileAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'document-open'), u'Decode from File')
+        self.decodeWebcamAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'image-png'), u'Decode from WebCam')
         self.decodeButton.setMenu(self.decodeMenu)
         
         self.qrcode.setFrameShape(QtGui.QFrame.StyledPanel)
         self.saveButton.setEnabled(False)
         self.pixelSize.setValue(3)
         self.pixelSize.setMinimum(1)
+        self.marginSize.setValue(4)
         self.l1.setBuddy(self.lineEdit)
         self.l2.setBuddy(self.pixelSize)
+        self.l3.setBuddy(self.ecLevel)
+        self.l4.setBuddy(self.marginSize)
+        self.ecLevel.setToolTip(u'Error Correction Level')
 
         self.buttons = QtGui.QHBoxLayout()
         self.buttons.addWidget(self.saveButton)
@@ -57,12 +66,26 @@ class MainWindow(QtGui.QMainWindow):
         self.pixControls.addWidget(self.l2)
         self.pixControls.addWidget(self.pixelSize)
         
+        self.levelControls = QtGui.QVBoxLayout()
+        self.levelControls.addWidget(self.l3)
+        self.levelControls.addWidget(self.ecLevel)
+        
+        self.marginControls = QtGui.QVBoxLayout()
+        self.marginControls.addWidget(self.l4)
+        self.marginControls.addWidget(self.marginSize)
+        
         self.controls = QtGui.QHBoxLayout()
-        self.controls.addLayout(self.codeControls)
         self.controls.addLayout(self.pixControls)
+        self.controls.addSpacing(10)
+        self.controls.addLayout(self.levelControls)
+        self.controls.addSpacing(10)
+        self.controls.addLayout(self.marginControls)
+        self.controls.addStretch()
+        self.optionsGroup.setLayout(self.controls)
         
         self.layout = QtGui.QVBoxLayout(self.w)
-        self.layout.addLayout(self.controls)
+        self.layout.addLayout(self.codeControls)
+        self.layout.addWidget(self.optionsGroup)
         self.layout.addWidget(self.qrcode, 1)
         self.layout.addLayout(self.buttons)
         self.layout.addWidget(self.exitButton)
@@ -74,9 +97,13 @@ class MainWindow(QtGui.QMainWindow):
         QtCore.QObject.connect(self.decodeWebcamAction, QtCore.SIGNAL('triggered()'), self.decodeWebcam)
 
     def qrencode(self, text):
+        level = (u'L',u'M',u'Q',u'H')
         if text:
             qr = QR(pixel_size = unicode(self.pixelSize.value()),
                     data=text,
+                    level=unicode(level[self.ecLevel.currentIndex()]),
+                    margin_size=unicode(self.marginSize.value()),
+                    data_type='text',
                     )
             if qr.encode() == 0:
                 self.qrcode.setPixmap(QtGui.QPixmap(qr.filename))
