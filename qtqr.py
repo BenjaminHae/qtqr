@@ -23,7 +23,7 @@ class MainWindow(QtGui.QMainWindow):
         self.w = QtGui.QWidget()
         self.setCentralWidget(self.w)
         self.optionsGroup = QtGui.QGroupBox(u'Parameters:')
-        self.lineEdit = QtGui.QLineEdit()
+        self.textEdit = QtGui.QPlainTextEdit()
         self.l1 = QtGui.QLabel(u'Insert &text to be encoded:')
         self.qrcode = QtGui.QLabel(u'\n\nStart typing to create QRcode.\n\n')
         self.qrcode.setAlignment(QtCore.Qt.AlignHCenter)
@@ -42,13 +42,15 @@ class MainWindow(QtGui.QMainWindow):
         self.decodeFileAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'document-open'), u'Decode from File')
         self.decodeWebcamAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'image-png'), u'Decode from WebCam')
         self.decodeButton.setMenu(self.decodeMenu)
-        
+
+        # self.textEdit.setFixedSize(self.textEdit.width() / 2.2 , self.textEdit.height() / 8.0) #FIX-ME: This is a hack.
+        self.textEdit.setMaximumHeight(self.textEdit.height()/8.0)        
         self.qrcode.setFrameShape(QtGui.QFrame.StyledPanel)
         self.saveButton.setEnabled(False)
         self.pixelSize.setValue(3)
         self.pixelSize.setMinimum(1)
         self.marginSize.setValue(4)
-        self.l1.setBuddy(self.lineEdit)
+        self.l1.setBuddy(self.textEdit)
         self.l2.setBuddy(self.pixelSize)
         self.l3.setBuddy(self.ecLevel)
         self.l4.setBuddy(self.marginSize)
@@ -60,7 +62,7 @@ class MainWindow(QtGui.QMainWindow):
         
         self.codeControls = QtGui.QVBoxLayout()
         self.codeControls.addWidget(self.l1)
-        self.codeControls.addWidget(self.lineEdit)
+        self.codeControls.addWidget(self.textEdit)
         
         self.pixControls = QtGui.QVBoxLayout()
         self.pixControls.addWidget(self.l2)
@@ -90,13 +92,17 @@ class MainWindow(QtGui.QMainWindow):
         self.layout.addLayout(self.buttons)
         self.layout.addWidget(self.exitButton)
 
-        QtCore.QObject.connect(self.lineEdit, QtCore.SIGNAL('textChanged(QString)'), self.qrencode)
-        QtCore.QObject.connect(self.saveButton, QtCore.SIGNAL('clicked()'), self.saveCode)
-        QtCore.QObject.connect(self.exitButton, QtCore.SIGNAL('clicked()'), self.close)
-        QtCore.QObject.connect(self.decodeFileAction, QtCore.SIGNAL('triggered()'), self.decodeFile)
-        QtCore.QObject.connect(self.decodeWebcamAction, QtCore.SIGNAL('triggered()'), self.decodeWebcam)
+        self.textEdit.textChanged.connect(self.qrencode)
+        self.pixelSize.valueChanged.connect(self.qrencode)
+        self.ecLevel.currentIndexChanged.connect(self.qrencode)
+        self.marginSize.valueChanged.connect(self.qrencode)
+        self.saveButton.clicked.connect(self.saveCode)
+        self.exitButton.clicked.connect(self.close)
+        self.decodeFileAction.triggered.connect(self.decodeFile)
+        self.decodeWebcamAction.triggered.connect(self.decodeWebcam)
 
-    def qrencode(self, text):
+    def qrencode(self):
+        text = self.textEdit.toPlainText()
         level = (u'L',u'M',u'Q',u'H')
         if text:
             qr = QR(pixel_size = unicode(self.pixelSize.value()),
