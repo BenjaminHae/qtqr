@@ -10,7 +10,7 @@
 #
 # copyright (C) 2011 Ramiro Algozino <algozino@gmail.com>
 
-import sys
+import sys, os
 from PyQt4 import QtCore, QtGui
 from qrtools import QR
 
@@ -19,7 +19,7 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
 
         self.setWindowTitle(u'QtQR: QR Code Generator')
-        self.setWindowIcon(QtGui.QIcon(u'icon.png'))
+        self.setWindowIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__), u'icon.png')))
         self.w = QtGui.QWidget()
         self.setCentralWidget(self.w)
 
