@@ -90,6 +90,8 @@ class MainWindow(QtGui.QMainWindow):
         self.l3.setBuddy(self.ecLevel)
         self.l4.setBuddy(self.marginSize)
         self.ecLevel.setToolTip(u'Error Correction Level')
+        self.exitButton.setShortcut(u"Ctrl+Q")
+        self.saveButton.setShortcut(u"Ctrl+S")
 
         self.buttons = QtGui.QHBoxLayout()
         self.buttons.addWidget(self.saveButton)
@@ -215,6 +217,8 @@ class MainWindow(QtGui.QMainWindow):
     def saveCode(self):
         fn = QtGui.QFileDialog.getSaveFileName(self, u'Save QRCode', filter=u'PNG Images (*.png);; All Files (*.*)')
         if fn:
+            if not fn.toLower().endsWith(u".png"):
+                fn += u".png"
             self.qrcode.pixmap().save(fn)
             print "Saving to file: %s" % fn
             QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved.')
