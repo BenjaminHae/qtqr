@@ -46,9 +46,25 @@ class QR(object):
         'sms' : lambda data : 'SMSTO:' + str(data[0]) + ':' + str(data[1]),
     }
 
-    data_decode = {}
+    data_decode = {
+        'text': lambda data: data,
+        'url': lambda data: data,
+        'email': lambda data: data.replace(u"mailto:",u"").replace(u"MAILTO:",u""),
+        'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.+);SUB:(.+);BODY:(.+);;", data, re.IGNORECASE)[0],
+        'telephone': lambda data: unicode(data.replace(u"tel:",u"").replace(u"TEL:",u"")),
+        'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
+    }
 
-    data_recognise = {}
+    def data_recognise(self, data = None):
+        """Returns an string indicating the data type of the data paramater"""
+        data = data or self.data 
+        data_lower = str(data).lower()
+        if data_lower.startswith(u"http://"): return u'url'
+        elif data_lower.startswith(u"mailto:"): return u'email'
+        elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
+        elif data_lower.startswith(u"tel:"): return u'telephone'
+        elif data_lower.startswith(u"smsto:"): return u'sms' 
+        else: return u'text'
 
     def __init__(
         self, pixel_size=3, level='L', margin_size=4,
@@ -107,7 +123,7 @@ class QR(object):
             # clean up
             del(image)
             self.data = symbol.data
-            self.data_type = 'text'
+            self.data_type = self.data_recognise()
             return True
         else:
             return False
@@ -128,7 +144,7 @@ class QR(object):
             for symbol in image:
                 if not symbol.count:
                     self.data = symbol.data
-                    self.data_type = 'text'
+                    self.data_type = self.data_recognise()
                     callback(symbol.data)
 
         proc.set_data_handler(my_handler)
