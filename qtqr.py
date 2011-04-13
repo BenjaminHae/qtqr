@@ -234,6 +234,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.showInfo(qr)
 
     def showInfo(self, qr):
+        print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
         msg = {
             'text': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
             'url': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
@@ -242,9 +243,31 @@ class MainWindow(QtGui.QMainWindow):
             'telephone': lambda : u"QRCode contains a telephone number: " + unicode(qr.data_decode[qr.data_type](qr.data)),
             'sms': lambda : u"QRCode contains an SMS message.\nTo: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
         }
-        #FIX-ME: Promt to do the related action to the data type
-        QtGui.QMessageBox.information(self, u'Decode QRCode', msg[qr.data_type]())
-        print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
+        wanna = u"\n\nDo you want to "
+        action = {
+            'text': u"",
+            'url': wanna + u"open it in a browser?",
+            'email': wanna + u"send the e-mail?",
+            'emailmessage': wanna + u"send the e-mail?",
+            'telephone': u"",
+            'sms': u"",
+        }
+        rsp = QtGui.QMessageBox.question(
+            self,
+            u'Decode QRCode',
+            msg[qr.data_type]() + action[qr.data_type],
+            QtGui.QMessageBox.No,
+            QtGui.QMessageBox.Yes
+        )
+        
+        if rsp == QtGui.QMessageBox.Yes:
+            if qr.data_type == 'emailmessage':
+                link = 'mailto:%s?subject=%s&body=%s' % qr.data_decode[qr.data_type](qr.data) 
+            else:
+                link = qr.data_decode[qr.data_type](qr.data_type)
+            print u"Opening " + link + "..."
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
+        
 
     def decodeWebcam(self):
         qr = QR()
