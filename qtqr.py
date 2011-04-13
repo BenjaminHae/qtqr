@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 #-*- encoding: utf-8 -*-
 
 # GUI front end for qrencode based on the work of David Green:
