@@ -228,27 +228,29 @@ class MainWindow(QtGui.QMainWindow):
         
     def decodeFile(self):
         fn = unicode(QtGui.QFileDialog.getOpenFileName(self, u'Open QRCode', filter=u'PNG Images (*.png);; All Files (*.*)'))
-
         if fn:
             qr = QR(filename=fn)
             if qr.decode():
-                msg = {
-                    'text': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
-                    'url': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
-                    'email': lambda : u"QRCode contains an e-mail addres.\n%s" % unicode((qr.data_decode[qr.data_type](qr.data))),
-                    'emailmessage': lambda : u"QRCode contains an e-mail message.\nTo: %s\nSubject: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
-                    'telephone': lambda : u"QRCode contains a telephone number: " + unicode(qr.data_decode[qr.data_type](qr.data)),
-                    'sms': lambda : u"QRCode contains an SMS message.\nTo: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
-                }
-                #FIX-ME: Promt to do the related action to the data type
-                QtGui.QMessageBox.information(self, u'Decode QRCode', msg[qr.data_type]())
-                print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
+                self.showInfo(qr)
+
+    def showInfo(self, qr):
+        msg = {
+            'text': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
+            'url': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
+            'email': lambda : u"QRCode contains an e-mail addres.\n%s" % unicode((qr.data_decode[qr.data_type](qr.data))),
+            'emailmessage': lambda : u"QRCode contains an e-mail message.\nTo: %s\nSubject: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
+            'telephone': lambda : u"QRCode contains a telephone number: " + unicode(qr.data_decode[qr.data_type](qr.data)),
+            'sms': lambda : u"QRCode contains an SMS message.\nTo: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
+        }
+        #FIX-ME: Promt to do the related action to the data type
+        QtGui.QMessageBox.information(self, u'Decode QRCode', msg[qr.data_type]())
+        print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
 
     def decodeWebcam(self):
         qr = QR()
         qr.decode_webcam()
         if qr.data_to_string() != 'NULL':
-            QtGui.QMessageBox.information(self, u'Decode QRCode', qr.data_to_string())
+            self.showInfo(qr)
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
