@@ -237,17 +237,17 @@ class MainWindow(QtGui.QMainWindow):
         print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
         msg = {
             'text': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
-            'url': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
-            'email': lambda : u"QRCode contains an e-mail addres.\n%s" % unicode((qr.data_decode[qr.data_type](qr.data))),
-            'emailmessage': lambda : u"QRCode contains an e-mail message.\nTo: %s\nSubject: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
+            'url': lambda : u"QRCode contains the following url addres:\n%s" % unicode(qr.data_decode[qr.data_type](qr.data)),
+            'email': lambda : u"QRCode contains the following e-mail addres:\n%s" % unicode((qr.data_decode[qr.data_type](qr.data))),
+            'emailmessage': lambda : u"QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
             'telephone': lambda : u"QRCode contains a telephone number: " + unicode(qr.data_decode[qr.data_type](qr.data)),
-            'sms': lambda : u"QRCode contains an SMS message.\nTo: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
+            'sms': lambda : u"QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
         }
         wanna = u"\n\nDo you want to "
         action = {
             'text': u"",
             'url': wanna + u"open it in a browser?",
-            'email': wanna + u"send the e-mail?",
+            'email': wanna + u"send an e-mail to the address?",
             'emailmessage': wanna + u"send the e-mail?",
             'telephone': u"",
             'sms': u"",
