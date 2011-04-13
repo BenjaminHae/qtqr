@@ -4,15 +4,15 @@
 #   David Green <david4dev@gmail.com>
 #   Ramiro Algozino <algozino@gmail.com>
 #
-# qr.py: Library for encoding/decoding QR Codes (2D barcodes).
+# qrtools.py: Library for encoding/decoding QR Codes (2D barcodes).
 # Copyright (C) 2011 David Green <david4dev@gmail.com>
 #
-# `qr.py` is free software: you can redistribute it and/or modify it under the
+# `qrtools.py` is free software: you can redistribute it and/or modify it under the
 # terms of the GNU General Public License as published by the Free
 # Software Foundation, either version 3 of the License, or (at your option) any
 # later version.
 #
-# `qr.py` is distributed in the hope that it will be useful, but WITHOUT ANY
+# `qrtools.py` is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
 # A PARTICULAR PURPOSE.  See the GNU General Public License for more
 # details.
@@ -46,9 +46,25 @@ class QR(object):
         'sms' : lambda data : 'SMSTO:' + unicode(data[0]) + ':' + unicode(data[1]),
     }
 
-    data_decode = {}
+    data_decode = {
+        'text': lambda data: data,
+        'url': lambda data: data,
+        'email': lambda data: data.replace(u"mailto:",u"").replace(u"MAILTO:",u""),
+        'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.+);SUB:(.+);BODY:(.+);;", data, re.IGNORECASE)[0],
+        'telephone': lambda data: unicode(data.replace(u"tel:",u"").replace(u"TEL:",u"")),
+        'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
+    }
 
-    data_recognise = {}
+    def data_recognise(self, data = None):
+        """Returns an string indicating the data type of the data paramater"""
+        data = data or self.data 
+        data_lower = str(data).lower()
+        if data_lower.startswith(u"http://"): return u'url'
+        elif data_lower.startswith(u"mailto:"): return u'email'
+        elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
+        elif data_lower.startswith(u"tel:"): return u'telephone'
+        elif data_lower.startswith(u"smsto:"): return u'sms' 
+        else: return u'text'
 
     def __init__(
         self, pixel_size=3, level='L', margin_size=4,
@@ -107,7 +123,7 @@ class QR(object):
             # clean up
             del(image)
             self.data = symbol.data
-            self.data_type = 'text'
+            self.data_type = self.data_recognise()
             return True
         else:
             return False
@@ -128,7 +144,7 @@ class QR(object):
             for symbol in image:
                 if not symbol.count:
                     self.data = symbol.data
-                    self.data_type = 'text'
+                    self.data_type = self.data_recognise()
                     callback(symbol.data)
 
         proc.set_data_handler(my_handler)
