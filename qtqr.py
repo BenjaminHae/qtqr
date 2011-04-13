@@ -224,7 +224,7 @@ class MainWindow(QtGui.QMainWindow):
                 fn += u".png"
             self.qrcode.pixmap().save(fn)
             print "Saving to file: %s" % fn
-            QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved.')
+            QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved to <b>%s</b>.' % fn)
         
     def decodeFile(self):
         fn = unicode(QtGui.QFileDialog.getOpenFileName(self, u'Open QRCode', filter=u'PNG Images (*.png);; All Files (*.*)'))
