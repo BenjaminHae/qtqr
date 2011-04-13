@@ -4,7 +4,7 @@
 #   David Green <david4dev@gmail.com>
 #   Ramiro Algozino <algozino@gmail.com>
 #
-# qr.py: Library for encoding/decoding QR Codes (2D barcodes).
+# qrtools.py: Library for encoding/decoding QR Codes (2D barcodes).
 # Copyright (C) 2011 David Green <david4dev@gmail.com>
 #
 # `qrtools.py` is free software: you can redistribute it and/or modify it under the
