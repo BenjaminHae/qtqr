@@ -236,9 +236,9 @@ class MainWindow(QtGui.QMainWindow):
     def showInfo(self, qr):
         print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
         msg = {
-            'text': lambda : unicode(qr.data_decode[qr.data_type](qr.data)),
-            'url': lambda : u"QRCode contains the following url addres:\n%s" % unicode(qr.data_decode[qr.data_type](qr.data)),
-            'email': lambda : u"QRCode contains the following e-mail addres:\n%s" % unicode((qr.data_decode[qr.data_type](qr.data))),
+            'text': lambda : u"QRCode contains the following text:\n\n%s" % unicode(qr.data_decode[qr.data_type](qr.data)),
+            'url': lambda : u"QRCode contains the following url address:\n\n%s" % unicode(qr.data_decode[qr.data_type](qr.data)),
+            'email': lambda : u"QRCode contains the following e-mail address:\n\n%s" % unicode((qr.data_decode[qr.data_type](qr.data))),
             'emailmessage': lambda : u"QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
             'telephone': lambda : u"QRCode contains a telephone number: " + unicode(qr.data_decode[qr.data_type](qr.data)),
             'sms': lambda : u"QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s" % qr.data_decode[qr.data_type](qr.data),
@@ -252,20 +252,29 @@ class MainWindow(QtGui.QMainWindow):
             'telephone': u"",
             'sms': u"",
         }
-        rsp = QtGui.QMessageBox.question(
-            self,
-            u'Decode QRCode',
-            msg[qr.data_type]() + action[qr.data_type],
-            QtGui.QMessageBox.No,
-            QtGui.QMessageBox.Yes
-        )
+        if action[qr.data_type] != u"": 
+            rsp = QtGui.QMessageBox.question(
+                self,
+                u'Decode QRCode',
+                msg[qr.data_type]() + action[qr.data_type],
+                QtGui.QMessageBox.No,
+                QtGui.QMessageBox.Yes
+            )
+        else:
+            rsp = QtGui.QMessageBox.question(
+                self,
+                u'Decode QRCode',
+                msg[qr.data_type]() + action[qr.data_type],
+                QtGui.QMessageBox.Ok
+            )
+            
         
         if rsp == QtGui.QMessageBox.Yes:
             if qr.data_type == 'emailmessage':
                 link = 'mailto:%s?subject=%s&body=%s' % qr.data_decode[qr.data_type](qr.data) 
             else:
                 link = qr.data_decode[qr.data_type](qr.data_type)
-            print u"Opening " + link + "..."
+            print u"Opening " + link
             QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
         
 
