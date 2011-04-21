@@ -232,6 +232,8 @@ class MainWindow(QtGui.QMainWindow):
             qr = QR(filename=fn)
             if qr.decode():
                 self.showInfo(qr)
+            else:
+                QtGui.QMessageBox.information(self, u'Decode File',u'No QRCode could be found in file: <b>%s</b>.' % fn)
 
     def showInfo(self, qr):
         print qr.data_type + ':', qr.data_decode[qr.data_type](qr.data)
