@@ -116,15 +116,18 @@ class QR(object):
             # wrap image data
             image = zbar.Image(width, height, 'Y800', raw)
             # scan the image for barcodes
-            scanner.scan(image)
+            result = scanner.scan(image)
             # extract results
-            for symbol in image:
-                pass
-            # clean up
-            del(image)
-            self.data = symbol.data
-            self.data_type = self.data_recognise()
-            return True
+            if result == 0: 
+                return False
+            else:
+                for symbol in image:
+                    pass
+                # clean up
+                del(image)
+                self.data = symbol.data
+                self.data_type = self.data_recognise()
+                return True
         else:
             return False
 
