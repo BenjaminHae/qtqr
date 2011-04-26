@@ -27,23 +27,25 @@ import hashlib
 import zbar
 import Image
 import re
+from codecs import BOM_UTF8
 
 class QR(object):
 
     #use these for custom data formats eg. url, phone number, VCARD
+    #data should be an unicode object or a list of unicode objects
     data_encode = {
-        'text' : lambda data: unicode(data),
+        'text' : lambda data: data,
         'url' : lambda data: 'http://' + re.compile(
                 r'^http://', re.IGNORECASE
-            ).sub('', unicode(data)),
+            ).sub('', data),
         'email' :lambda data: 'mailto:' + re.compile(
                 r'^mailto:', re.IGNORECASE
-            ).sub('', unicode(data)),
-        'emailmessage' : lambda data : 'MATMSG:TO:' + unicode(data[0]) + ';SUB:' + unicode(data[1]) + ';BODY:' + unicode(data[2]) + ';;',
+            ).sub('', data),
+        'emailmessage' : lambda data : 'MATMSG:TO:' + data[0] + ';SUB:' + data[1] + ';BODY:' + data[2] + ';;',
         'telephone' : lambda data: 'tel:' + re.compile(
                 r'^tel:', re.IGNORECASE
-            ).sub('', unicode(data)),
-        'sms' : lambda data : 'SMSTO:' + unicode(data[0]) + ':' + unicode(data[1]),
+            ).sub('', data),
+        'sms' : lambda data : 'SMSTO:' + data[0] + ':' + data[1],
     }
 
     data_decode = {
@@ -51,12 +53,12 @@ class QR(object):
         'url': lambda data: data,
         'email': lambda data: data.replace(u"mailto:",u"").replace(u"MAILTO:",u""),
         'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.+);SUB:(.+);BODY:(.+);;", data, re.IGNORECASE)[0],
-        'telephone': lambda data: unicode(data.replace(u"tel:",u"").replace(u"TEL:",u"")),
+        'telephone': lambda data: data.replace(u"tel:",u"").replace(u"TEL:",u""),
         'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
     }
 
     def data_recognise(self, data = None):
-        """Returns an string indicating the data type of the data paramater"""
+        """Returns an unicode string indicatingthe data type of the data paramater"""
         data = data or self.data 
         data_lower = data.lower()
         if data_lower.startswith(u"http://"): return u'url'
@@ -67,13 +69,14 @@ class QR(object):
         else: return u'text'
 
     def __init__(
-        self, pixel_size=3, level='L', margin_size=4,
-        data_type='text', data='NULL', filename=None
+        self, data=u'NULL', pixel_size=3, level='L', margin_size=4,
+        data_type=u'text', filename=None
     ):
         self.pixel_size = pixel_size
         self.level = level
         self.margin_size = margin_size
         self.data_type = data_type
+        #you should pass data as a unicode object.
         self.data = data
         #get a temp directory
         self.directory = os.path.join('/tmp', 'qr-%f' % time.time())
@@ -81,13 +84,14 @@ class QR(object):
         os.makedirs(self.directory)
 
     def data_to_string(self):
-        return self.__class__.data_encode[self.data_type](self.data)
+        """Returns a UTF8 string with the QR Code's data"""
+        return BOM_UTF8 + self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
 
     def get_tmp_file(self):
         return os.path.join(
             self.directory,
             #filename is hash of data
-            hashlib.sha256(self.data_to_string().encode('utf-8')).hexdigest() + '.png'
+            hashlib.sha256(self.data_to_string()).hexdigest() + '.png'
         )
 
     def encode(self, filename=None):
@@ -125,6 +129,7 @@ class QR(object):
                     pass
                 # clean up
                 del(image)
+                #Assuming data is encoded in utf8
                 self.data = symbol.data.decode(u'utf-8')
                 self.data_type = self.data_recognise()
                 return True
