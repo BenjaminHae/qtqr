@@ -58,7 +58,7 @@ class QR(object):
     def data_recognise(self, data = None):
         """Returns an string indicating the data type of the data paramater"""
         data = data or self.data 
-        data_lower = str(data).lower()
+        data_lower = data.lower()
         if data_lower.startswith(u"http://"): return u'url'
         elif data_lower.startswith(u"mailto:"): return u'email'
         elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
@@ -125,7 +125,7 @@ class QR(object):
                     pass
                 # clean up
                 del(image)
-                self.data = symbol.data
+                self.data = symbol.data.decode(u'utf-8')
                 self.data_type = self.data_recognise()
                 return True
         else:
