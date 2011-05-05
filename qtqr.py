@@ -241,7 +241,7 @@ class MainWindow(QtGui.QMainWindow):
         data = qr.data_decode[dt](qr.data)
         if type(data) == tuple:
             for d in data:
-                print d.encode(u"utf-8"),
+                print d.encode(u"utf-8")
         else:
             print data.encode(u"utf-8")
         msg = {
