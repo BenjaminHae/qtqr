@@ -239,10 +239,11 @@ class MainWindow(QtGui.QMainWindow):
         dt = qr.data_type
         print dt.encode(u"utf-8") + ':', 
         data = qr.data_decode[dt](qr.data)
-        if dt == 'text': 
-            print data.encode(u"utf-8")
+        if type(data) == tuple:
+            for d in data:
+                print d.encode(u"utf-8"),
         else:
-            print [e.encode(u"utf-8") for e in data]
+            print data.encode(u"utf-8")
         msg = {
             'text': lambda : u"QRCode contains the following text:\n\n%s" % (data),
             'url': lambda : u"QRCode contains the following url address:\n\n%s" % (data),
