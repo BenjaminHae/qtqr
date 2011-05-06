@@ -61,7 +61,7 @@ class QR(object):
         """Returns an unicode string indicatingthe data type of the data paramater"""
         data = data or self.data 
         data_lower = data.lower()
-        if data_lower.startswith(u"http://"): return u'url'
+        if data_lower.startswith(u"http://") or data_lower.startswith(u"https://"): return u'url'
         elif data_lower.startswith(u"mailto:"): return u'email'
         elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
         elif data_lower.startswith(u"tel:"): return u'telephone'
