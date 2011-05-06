@@ -31,13 +31,21 @@ from codecs import BOM_UTF8
 
 class QR(object):
 
+    def encode_url(data):
+        if data_lower.startswith(u"http://"):
+            return ('http://' + re.compile(
+                r'^http://', re.IGNORECASE
+            ).sub('', data))
+        elif data_lower.startswith(u"https://"):
+            return ('https://' + re.compile(
+                r'^https://', re.IGNORECASE
+            ).sub('', data))
+
     #use these for custom data formats eg. url, phone number, VCARD
     #data should be an unicode object or a list of unicode objects
     data_encode = {
         'text' : lambda data: data,
-        'url' : lambda data: 'http://' + re.compile(
-                r'^http://', re.IGNORECASE
-            ).sub('', data),
+        'url' : encode_url,
         'email' :lambda data: 'mailto:' + re.compile(
                 r'^mailto:', re.IGNORECASE
             ).sub('', data),
@@ -61,7 +69,7 @@ class QR(object):
         """Returns an unicode string indicatingthe data type of the data paramater"""
         data = data or self.data 
         data_lower = data.lower()
-        if data_lower.startswith(u"http://"): return u'url'
+        if data_lower.startswith(u"http://") or data_lower.startswith(u"https://"): return u'url'
         elif data_lower.startswith(u"mailto:"): return u'email'
         elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
         elif data_lower.startswith(u"tel:"): return u'telephone'
