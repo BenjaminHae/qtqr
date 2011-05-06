@@ -36,7 +36,7 @@ class QR(object):
     data_encode = {
         'text' : lambda data: data,
         'url' : lambda data: 'http://' + re.compile(
-                r'^http://', re.IGNORECASE
+                r'^http(|s)://', re.IGNORECASE
             ).sub('', data),
         'email' :lambda data: 'mailto:' + re.compile(
                 r'^mailto:', re.IGNORECASE
