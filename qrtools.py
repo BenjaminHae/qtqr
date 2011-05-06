@@ -32,6 +32,7 @@ from codecs import BOM_UTF8
 class QR(object):
 
     def encode_url(data):
+        data_lower = data.lower()
         if data_lower.startswith(u"http://"):
             return ('http://' + re.compile(
                 r'^http://', re.IGNORECASE
@@ -66,7 +67,7 @@ class QR(object):
     }
 
     def data_recognise(self, data = None):
-        """Returns an unicode string indicatingthe data type of the data paramater"""
+        """Returns an unicode string indicating the data type of the data paramater"""
         data = data or self.data 
         data_lower = data.lower()
         if data_lower.startswith(u"http://") or data_lower.startswith(u"https://"): return u'url'
