@@ -270,7 +270,7 @@ class MainWindow(QtGui.QMainWindow):
                 QtGui.QMessageBox.Yes
             )
         else:
-            rsp = QtGui.QMessageBox.question(
+            rsp = QtGui.QMessageBox.information(
                 self,
                 u'Decode QRCode',
                 msg[qr.data_type]() + action[qr.data_type],
