@@ -47,13 +47,15 @@ class MainWindow(QtGui.QMainWindow):
         self.emailSubLabel = QtGui.QLabel(u'Subject:')
         self.emailSubjectEdit = QtGui.QLineEdit()
         self.emailBodyLabel = QtGui.QLabel(u'Message Body:')
-        self.emailBodyEdit = QtGui.QLineEdit()
+        self.emailBodyEdit = QtGui.QPlainTextEdit()
+        
         self.telephoneLabel = QtGui.QLabel(u'Telephone Number:')
         self.telephoneEdit = QtGui.QLineEdit()
+        
         self.smsNumberLabel = QtGui.QLabel(u'Telephone Number:')
         self.smsNumberEdit = QtGui.QLineEdit() 
         self.smsBodyLabel = QtGui.QLabel(u'Message:')
-        self.smsBodyEdit = QtGui.QLineEdit()
+        self.smsBodyEdit = QtGui.QPlainTextEdit()
 
         self.optionsGroup = QtGui.QGroupBox(u'Parameters:')
 
@@ -67,19 +69,21 @@ class MainWindow(QtGui.QMainWindow):
         self.l4 = QtGui.QLabel(u'&Margin Size:')
         self.marginSize = QtGui.QSpinBox()
 
-        self.qrcode = QtGui.QLabel(u'\n\nStart typing to create QRcode.\n\n')
+        self.qrcode = QtGui.QLabel(u'\n\nStart typing to create QR Code.\n\n')
         self.qrcode.setAlignment(QtCore.Qt.AlignHCenter)
 
         self.saveButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'document-save'), u'&Save QRCode')
-        self.exitButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'application-exit'),u'E&xit')
         self.decodeButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'preview-file'),u'&Decode')
         
         self.decodeMenu = QtGui.QMenu()
         self.decodeFileAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'document-open'), u'Decode from &File')
         self.decodeWebcamAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'image-png'), u'Decode from &WebCam')
         self.decodeButton.setMenu(self.decodeMenu)
+        # self.exitAction = QtGui.QAction(QtGui.QIcon.fromTheme(u'application-exit'),u'E&xit', )
 
-        self.textEdit.setMaximumHeight(self.textEdit.height()/3.5)        
+        # self.textEdit.setMaximumHeight(self.textEdit.height()/3.5)        
+        self.smsBodyEdit.setMaximumHeight(self.smsBodyEdit.height()/3.5)
+        self.emailBodyEdit.setMaximumHeight(self.emailBodyEdit.height()/5.5)
         self.qrcode.setFrameShape(QtGui.QFrame.StyledPanel)
         self.saveButton.setEnabled(False)
         self.pixelSize.setValue(3)
@@ -93,7 +97,7 @@ class MainWindow(QtGui.QMainWindow):
         self.l3.setToolTip(u'Error Correction Level')
         self.decodeFileAction.setShortcut(u"Ctrl+O")
         self.decodeWebcamAction.setShortcut(u"Ctrl+W")
-        self.exitButton.setShortcut(u"Ctrl+Q")
+        # self.exitButton.setShortcut(u"Ctrl+Q")
         self.saveButton.setShortcut(u"Ctrl+S")
 
         self.buttons = QtGui.QHBoxLayout()
@@ -167,12 +171,13 @@ class MainWindow(QtGui.QMainWindow):
         self.optionsGroup.setLayout(self.controls)
         
         #Main Window Layout
-        self.layout = QtGui.QVBoxLayout(self.w)
+        self.vlayout = QtGui.QVBoxLayout() 
+        self.vlayout.addWidget(self.optionsGroup)
+        self.vlayout.addWidget(self.qrcode, 1)
+        self.vlayout.addLayout(self.buttons)
+        self.layout = QtGui.QHBoxLayout(self.w)
         self.layout.addWidget(self.tabs)
-        self.layout.addWidget(self.optionsGroup)
-        self.layout.addWidget(self.qrcode, 1)
-        self.layout.addLayout(self.buttons)
-        self.layout.addWidget(self.exitButton)
+        self.layout.addLayout(self.vlayout)
 
         #Signals
         self.textEdit.textChanged.connect(self.qrencode)
@@ -187,7 +192,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ecLevel.currentIndexChanged.connect(self.qrencode)
         self.marginSize.valueChanged.connect(self.qrencode)
         self.saveButton.clicked.connect(self.saveCode)
-        self.exitButton.clicked.connect(self.close)
+        # self.exitButton.clicked.connect(self.close)
         self.decodeFileAction.triggered.connect(self.decodeFile)
         self.decodeWebcamAction.triggered.connect(self.decodeWebcam)
 
@@ -195,8 +200,8 @@ class MainWindow(QtGui.QMainWindow):
         text = [
             unicode(self.textEdit.toPlainText()),
             unicode(self.urlEdit.text()),
-            ( unicode(self.emailEdit.text()), unicode(self.emailSubjectEdit.text()), unicode(self.emailBodyEdit.text()) ),
-            ( unicode(self.smsNumberEdit.text()), unicode(self.smsBodyEdit.text()) ),
+            ( unicode(self.emailEdit.text()), unicode(self.emailSubjectEdit.text()), unicode(self.emailBodyEdit.toPlainText()) ),
+            ( unicode(self.smsNumberEdit.text()), unicode(self.smsBodyEdit.toPlainText()) ),
             unicode(self.telephoneEdit.text()),
         ]
         level = (u'L',u'M',u'Q',u'H')
@@ -290,7 +295,7 @@ class MainWindow(QtGui.QMainWindow):
     def decodeWebcam(self):
         qr = QR()
         qr.decode_webcam()
-        if qr.data_to_string() != 'NULL':
+        if qr.data_decode[qr.data_type](qr.data) != 'NULL':
             self.showInfo(qr)
 
 if __name__ == '__main__':
