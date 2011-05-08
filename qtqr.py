@@ -86,7 +86,6 @@ class MainWindow(QtGui.QMainWindow):
         self.aboutAction = QtGui.QAction(QtGui.QIcon.fromTheme(u"help-about"), u"&About", self)
         self.addAction(self.aboutAction)
 
-        # self.textEdit.setMaximumHeight(self.textEdit.height()/3.5)
         self.saveButton.setEnabled(False)
         self.pixelSize.setValue(3)
         self.pixelSize.setMinimum(1)
@@ -111,7 +110,6 @@ class MainWindow(QtGui.QMainWindow):
         self.codeControls = QtGui.QVBoxLayout()
         self.codeControls.addWidget(self.l1)
         self.codeControls.addWidget(self.textEdit, 1)
-#        self.codeControls.addStretch()
         self.textTab.setLayout(self.codeControls)
 
         #URL Tab
@@ -303,15 +301,14 @@ class MainWindow(QtGui.QMainWindow):
             self.showInfo(qr)
 
     def about(self):
-        QtGui.QMessageBox.information(
+        QtGui.QMessageBox.about(
             self,
             u"About QtQR",
             u'<h1>QtQR %s</h1><p>This is Free Software: GNU-GPLv3</p> \
-            <p>copyright &copy; Ramiro Algozino<br /> \
-            <a href="mailto:algozino@gmail.com">algozino@gmail.com</a></p> \
             <p><a href="https://launchpad.net/~qr-tools-developers/qtqr">\
-            https://launchpad.net/~qr-tools-developers/qtqr</p>' % 1.0,
-            QtGui.QMessageBox.Ok
+            https://launchpad.net/~qr-tools-developers/qtqr</p> \
+            <p>copyright &copy; Ramiro Algozino<br /> \
+            <a href="mailto:algozino@gmail.com">algozino@gmail.com</a></p>' % 1.0, 
         )
 
 if __name__ == '__main__':
