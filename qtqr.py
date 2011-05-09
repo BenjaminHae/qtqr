@@ -22,6 +22,7 @@ class MainWindow(QtGui.QMainWindow):
         self.setWindowIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__), u'icon.png')))
         self.w = QtGui.QWidget()
         self.setCentralWidget(self.w)
+        self.setAcceptDrops(True)
 
         #Tabs
         self.tabs = QtGui.QTabWidget()
@@ -69,7 +70,7 @@ class MainWindow(QtGui.QMainWindow):
         self.l4 = QtGui.QLabel(u'&Margin Size:')
         self.marginSize = QtGui.QSpinBox()
 
-        self.qrcode = QtGui.QLabel(u'Start typing to create QR Code.')
+        self.qrcode = QtGui.QLabel(u'Start typing to create QR Code\n or  drop here a file for decoding.')
         self.qrcode.setFrameShape(QtGui.QFrame.StyledPanel)
         self.qrcode.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignHCenter)
 
@@ -198,6 +199,10 @@ class MainWindow(QtGui.QMainWindow):
         self.decodeFileAction.triggered.connect(self.decodeFile)
         self.decodeWebcamAction.triggered.connect(self.decodeWebcam)
         
+        self.qrcode.setAcceptDrops(True)
+        self.qrcode.__class__.dragEnterEvent = self.dragEnterEvent
+        self.qrcode.__class__.dropEvent = self.dropEvent
+        
     def qrencode(self):
         text = [
             unicode(self.textEdit.toPlainText()),
@@ -233,14 +238,32 @@ class MainWindow(QtGui.QMainWindow):
             print "Saving to file: %s" % fn
             QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved to <b>%s</b>.' % fn)
 
-    def decodeFile(self):
-        fn = unicode(QtGui.QFileDialog.getOpenFileName(self, u'Open QRCode', filter=u'Images (*.png *.jpg);; All Files (*.*)'))
-        if fn:
+    def decodeFile(self, fn=None):
+        if not fn:
+            fn = unicode(QtGui.QFileDialog.getOpenFileName(
+                self, 
+                u'Open QRCode',
+                filter=u'Images (*.png *.jpg);; All Files (*.*)'
+                )
+            )
+        if os.path.isfile(fn):
             qr = QR(filename=fn)
             if qr.decode():
                 self.showInfo(qr)
             else:
-                QtGui.QMessageBox.information(self, u'Decode File',u'No QRCode could be found in file: <b>%s</b>.' % fn)
+                QtGui.QMessageBox.information(
+                    self,
+                    u'Decode File',
+                    u'No QRCode could be found in file: <b>%s</b>.' % fn
+                )
+        else:
+            QtGui.QMessageBox.information(
+                self,
+                u"Decode from file",
+                u"The file <b>%s</b> doesn't exist." %
+                os.path.abspath(fn),
+                QtGui.QMessageBox.Ok
+            )
 
     def showInfo(self, qr):
         dt = qr.data_type
@@ -359,11 +382,23 @@ class MainWindow(QtGui.QMainWindow):
             <p>copyright &copy; Ramiro Algozino \
             &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % 1.0, 
         )
+        
+    def dragEnterEvent(self, event):
+        if event.mimeData().hasUrls():
+            event.acceptProposedAction()
+            
+    def dropEvent(self, event):
+        for fn in event.mimeData().urls():
+            fn = fn.toLocalFile()
+            self.decodeFile(unicode(fn))
 
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     mw = MainWindow()
     mw.show()
-
+    if len(app.argv())>1:
+        #Open the file and try to decode it
+        for fn in app.argv()[1:]:
+            mw.decodeFile(fn)
     sys.exit(app.exec_())
