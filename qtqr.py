@@ -269,36 +269,69 @@ class MainWindow(QtGui.QMainWindow):
             'sms': u"",
         }
         if action[qr.data_type] != u"":
-            rsp = QtGui.QMessageBox.question(
-                self,
+            msgBox = QtGui.QMessageBox(
+                QtGui.QMessageBox.Question,
                 u'Decode QRCode',
                 msg[qr.data_type]() + action[qr.data_type],
-                QtGui.QMessageBox.No,
-                QtGui.QMessageBox.Yes
-            )
+                QtGui.QMessageBox.No |
+                QtGui.QMessageBox.Yes,
+                self
+                )
+            msgBox.addButton(u"&Edit", QtGui.QMessageBox.ApplyRole)
+            msgBox.setDefaultButton(QtGui.QMessageBox.Yes)
+            rsp = msgBox.exec_()
         else:
-            rsp = QtGui.QMessageBox.information(
-                self,
-                u'Decode QRCode',
+            msgBox = QtGui.QMessageBox(
+                QtGui.QMessageBox.Information,
+                u"Decode QRCode",
                 msg[qr.data_type]() + action[qr.data_type],
-                QtGui.QMessageBox.Ok
-            )
-
+                QtGui.QMessageBox.Ok,
+                self
+                )
+            msgBox.addButton(u"&Edit", QtGui.QMessageBox.ApplyRole)
+            msgBox.setDefaultButton(QtGui.QMessageBox.Ok)
+            rsp = msgBox.exec_()
 
         if rsp == QtGui.QMessageBox.Yes:
+            #Open Link
             if qr.data_type == 'emailmessage':
                 link = 'mailto:%s?subject=%s&body=%s' % (data)
             else:
                 link = qr.data_decode[qr.data_type](qr.data)
             print u"Opening " + link
             QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
-
+        elif rsp == 0:
+            #Edit the code
+            data = qr.data_decode[qr.data_type](qr.data)
+            if qr.data_type == 'text':
+                self.tabs.setCurrentIndex(0)
+                self.textEdit.setPlainText(data)
+            elif qr.data_type == 'url':
+                self.tabs.setCurrentIndex(1)
+                self.urlEdit.setText(data)
+            elif qr.data_type == 'emailmessage':
+                self.emailEdit.setText(data[0])
+                self.emailSubjectEdit.setText(data[1])
+                self.emailBodyEdit.setPlainText(data[2])
+                self.tabs.setCurrentIndex(2)
+            elif qr.data_type == 'email':
+                self.emailEdit.setText(data)
+                self.emailSubjectEdit.setText("")
+                self.emailBodyEdit.setPlainText("")
+                self.tabs.setCurrentIndex(2)
+            elif qr.data_type == 'sms':
+                self.smsNumberEdit.setText(data[0])
+                self.smsBodyEdit.setPlainText(data[1])
+                self.tabs.setCurrentIndex(3)
+            elif qr.data_type == 'telephone':
+                self.telephoneEdit.setText(data)
+                self.tabs.setCurrentIndex(4)
 
     def decodeWebcam(self):
         QtGui.QMessageBox.information(
             self,
             u"Decode from webcam",
-            u"You are about to decode from your webcam. Please put the code in front of your webcam with a good light source and keep it steady. Once you see a <i>green rectangle</i> you can close the window by pressing any key.",
+            u"You are about to decode from your webcam. Please put the code in front of your webcam with a good light source and keep it steady. Once you see a green rectangle you can close the window by pressing any key.",
             QtGui.QMessageBox.Ok
         )
         qr = QR()
@@ -307,7 +340,8 @@ class MainWindow(QtGui.QMainWindow):
             QtGui.QMessageBox.warning(
                 self,
                 u"Decoding Failed",
-                u"No code was found.",
+                u"<p>Oops! no code was found.<br /> \
+                Maybe your webcam didn't focus.</p>",
                 QtGui.QMessageBox.Ok
             )
         else:
