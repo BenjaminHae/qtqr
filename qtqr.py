@@ -351,11 +351,13 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMessageBox.about(
             self,
             u"About QtQR",
-            u'<h1>QtQR %s</h1><p>This is Free Software: GNU-GPLv3</p> \
+            u'<h1>QtQR %s</h1>\
+            <p>A simple software for creating and decoding QR Codes.</p>\
+            <p>This is Free Software: GNU-GPLv3</p> \
             <p><a href="https://launchpad.net/~qr-tools-developers/qtqr">\
             https://launchpad.net/~qr-tools-developers/qtqr</p> \
-            <p>copyright &copy; Ramiro Algozino<br /> \
-            <a href="mailto:algozino@gmail.com">algozino@gmail.com</a></p>' % 1.0, 
+            <p>copyright &copy; Ramiro Algozino \
+            &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % 1.0, 
         )
 
 
