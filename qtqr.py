@@ -295,9 +295,22 @@ class MainWindow(QtGui.QMainWindow):
 
 
     def decodeWebcam(self):
+        QtGui.QMessageBox.information(
+            self,
+            u"Decode from webcam",
+            u"You are about to decode from your webcam. Please put the code in front of your webcam with a good light source and keep it steady. Once you see a <i>green rectangle</i> you can close the window by pressing any key.",
+            QtGui.QMessageBox.Ok
+        )
         qr = QR()
         qr.decode_webcam()
-        if qr.data_decode[qr.data_type](qr.data) != 'NULL':
+        if qr.data_decode[qr.data_type](qr.data) == 'NULL':
+            QtGui.QMessageBox.warning(
+                self,
+                u"Decoding Failed",
+                u"No code was found.",
+                QtGui.QMessageBox.Ok
+            )
+        else:
             self.showInfo(qr)
 
     def about(self):
@@ -310,6 +323,7 @@ class MainWindow(QtGui.QMainWindow):
             <p>copyright &copy; Ramiro Algozino<br /> \
             <a href="mailto:algozino@gmail.com">algozino@gmail.com</a></p>' % 1.0, 
         )
+
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
