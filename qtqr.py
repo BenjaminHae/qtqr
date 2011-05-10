@@ -375,9 +375,12 @@ class MainWindow(QtGui.QMainWindow):
             self,
             u"About QtQR",
             u'<h1>QtQR %s</h1>\
-            <p>A simple software for creating and decoding QR Codes.</p>\
+            <p>A simple software for creating and decoding QR Codes that uses <a href="https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk">python-qrtools</a> as backend. Both are part of the <a href="https://launchpad.net/qr-tools">QR Tools</a> project.</p>\
+            <p></p>\
             <p>This is Free Software: GNU-GPLv3</p> \
-            <p><a href="https://launchpad.net/~qr-tools-developers/qtqr">\
+            <p></p>\
+            <p>Please visit our website for more information and to check out the code:<br />\
+            <a href="https://launchpad.net/~qr-tools-developers/qtqr">\
             https://launchpad.net/~qr-tools-developers/qtqr</p> \
             <p>copyright &copy; Ramiro Algozino \
             &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % 1.1, 
