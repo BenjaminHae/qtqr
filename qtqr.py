@@ -380,7 +380,7 @@ class MainWindow(QtGui.QMainWindow):
             <p><a href="https://launchpad.net/~qr-tools-developers/qtqr">\
             https://launchpad.net/~qr-tools-developers/qtqr</p> \
             <p>copyright &copy; Ramiro Algozino \
-            &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % 1.0, 
+            &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % 1.1, 
         )
         
     def dragEnterEvent(self, event):
