@@ -19,7 +19,16 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
 
         self.setWindowTitle(u'QtQR: QR Code Generator')
-        self.setWindowIcon(QtGui.QIcon(os.path.join(os.path.dirname(__file__), u'icon.png')))
+        icon = os.path.join(os.path.dirname(__file__), u'icon.png')
+        if not QtCore.QFile(icon).exists():
+            icon = os.path.join(
+                os.path.dirname(__file__),
+                u'usr', 
+                u'share',
+                u'pixmaps',
+                u'qtqr.png'
+             )
+        self.setWindowIcon(QtGui.QIcon(icon))
         self.w = QtGui.QWidget()
         self.setCentralWidget(self.w)
         self.setAcceptDrops(True)
