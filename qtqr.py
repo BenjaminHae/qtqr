@@ -22,7 +22,7 @@ class MainWindow(QtGui.QMainWindow):
         icon = os.path.join(os.path.dirname(__file__), u'icon.png')
         if not QtCore.QFile(icon).exists():
             icon = os.path.join(
-                os.path.dirname(__file__),
+                u'/',
                 u'usr', 
                 u'share',
                 u'pixmaps',
