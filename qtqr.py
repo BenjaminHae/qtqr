@@ -1,18 +1,23 @@
 #!/usr/bin/env python
 #-*- encoding: utf-8 -*-
 
-# GUI front end for qrencode based on the work of David Green:
-# <david4dev@gmail.com> https://launchpad.net/qr-code-creator/
-# and inspired by
-# http://www.omgubuntu.co.uk/2011/03/how-to-create-qr-codes-in-ubuntu/
-#
-# This is FREE SOFTWARE: GNU GPLv3
-#
-# copyright (C) 2011 Ramiro Algozino <algozino@gmail.com>
+"""
+GUI front end for qrencode based on the work of David Green:
+<david4dev@gmail.com> https://launchpad.net/qr-code-creator/
+and inspired by
+http://www.omgubuntu.co.uk/2011/03/how-to-create-qr-codes-in-ubuntu/
+"""
 
 import sys, os
 from PyQt4 import QtCore, QtGui
 from qrtools import QR
+
+__author__ = "Ramiro Algozino"
+__email__ = "algozino@gmail.com"
+__copyright__ = "copyright (C) 2011 Ramiro Algozino"
+__credits__ = "David Green"
+__license__ = "GPLv3"
+__version__ = "1.1"
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
@@ -35,16 +40,23 @@ class MainWindow(QtGui.QMainWindow):
 
         #Tabs
         self.tabs = QtGui.QTabWidget()
+        # self.tabs.setTabPosition(2)
         self.textTab = QtGui.QWidget()
         self.urlTab = QtGui.QWidget()
         self.emailTab = QtGui.QWidget()
         self.smsTab = QtGui.QWidget()
         self.telTab = QtGui.QWidget()
+        self.mmsTab = QtGui.QWidget()
+        self.geoTab = QtGui.QWidget()
+        self.bookmarkTab = QtGui.QWidget()
         self.tabs.addTab(self.textTab, u"&Text")
         self.tabs.addTab(self.urlTab, u"&URL")
         self.tabs.addTab(self.emailTab, u"&Email")
-        self.tabs.addTab(self.smsTab, u"S&MS")
+        self.tabs.addTab(self.smsTab, u"&SMS")
         self.tabs.addTab(self.telTab, u"&Telephone")
+        self.tabs.addTab(self.mmsTab, u"&MMS")
+        self.tabs.addTab(self.geoTab, u"&Geolocalization")
+        self.tabs.addTab(self.bookmarkTab, u"&Bookmarks")
 
         self.l1 = QtGui.QLabel(u'Text to be encoded:')
         self.textEdit = QtGui.QPlainTextEdit()
@@ -290,6 +302,8 @@ class MainWindow(QtGui.QMainWindow):
             'emailmessage': lambda : u"QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s" % (data),
             'telephone': lambda : u"QRCode contains a telephone number: " + (data),
             'sms': lambda : u"QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s" % (data),
+            'mms': lambda : u"QRCode contains the following MMS message:\n\nTo: %s\nMessage: %s" % (data),
+            'geo': lambda : u"QRCode contains the following coordinates:\n\nLatitude: %s\nLongitude:%s" % (data),
         }
         wanna = u"\n\nDo you want to "
         action = {
@@ -299,6 +313,8 @@ class MainWindow(QtGui.QMainWindow):
             'emailmessage': wanna + u"send the e-mail?",
             'telephone': u"",
             'sms': u"",
+            'mms': u"",
+            'geo': wanna + u"open it on Google Maps?"
         }
         if action[qr.data_type] != u"":
             msgBox = QtGui.QMessageBox(
@@ -328,6 +344,8 @@ class MainWindow(QtGui.QMainWindow):
             #Open Link
             if qr.data_type == 'emailmessage':
                 link = 'mailto:%s?subject=%s&body=%s' % (data)
+            elif qr.data_type == 'geo':
+                link = 'http://maps.google.com/maps?q=%s,%s' & data
             else:
                 link = qr.data_decode[qr.data_type](qr.data)
             print u"Opening " + link
@@ -392,7 +410,7 @@ class MainWindow(QtGui.QMainWindow):
             <a href="https://launchpad.net/~qr-tools-developers/qtqr">\
             https://launchpad.net/~qr-tools-developers/qtqr</p> \
             <p>copyright &copy; Ramiro Algozino \
-            &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % 1.1, 
+            &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>' % __version__, 
         )
         
     def dragEnterEvent(self, event):
