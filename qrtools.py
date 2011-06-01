@@ -59,7 +59,7 @@ class QR(object):
         'mms' : lambda data : 'MMSTO:' + data[0] + ':' + data[1],
         'geo' : lambda data : 'geo:' + data[0] + ',' + data[1],
         'bookmark': lambda data : "MEBKM:TITLE:" + data[0] + ";URL:" + data[1] + ";;",
-        'phonebook': lambda data: "MECARD:N:%s;TEL:%s;EMAIL:%s;;" % data,
+        'phonebook': lambda data: "MECARD:N:" + data[0] + ";TEL:" + data[1] + ";EMAIL:" + data[2] + ";;",
     }
 
     data_decode = {
@@ -98,7 +98,7 @@ class QR(object):
         self.level = level
         self.margin_size = margin_size
         self.data_type = data_type
-        #you should pass data as a unicode object.
+        #you should pass data as a unicode object or a list/tuple of unicode objects.
         self.data = data
         #get a temp directory
         self.directory = os.path.join('/tmp', 'qr-%f' % time.time())
