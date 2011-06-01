@@ -18,7 +18,8 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along
-# with `qr.py`.  If not, see <http://www.gnu.org/licenses/>.
+# with `qrtools.py`.  If not, see <http://www.gnu.org/licenses/>.
+
 import subprocess
 import os
 import time
@@ -55,6 +56,8 @@ class QR(object):
                 r'^tel:', re.IGNORECASE
             ).sub('', data),
         'sms' : lambda data : 'SMSTO:' + data[0] + ':' + data[1],
+        'mms' : lambda data : 'MMSTO:' + data[0] + ':' + data[1],
+        'geo' : lambda data : 'geo:' + data[0] + ',' + data[1],
     }
 
     data_decode = {
@@ -64,6 +67,8 @@ class QR(object):
         'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.+);SUB:(.+);BODY:(.+);;", data, re.IGNORECASE)[0],
         'telephone': lambda data: data.replace(u"tel:",u"").replace(u"TEL:",u""),
         'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
+        'mms': lambda data: re.findall(u"MMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
+        'geo': lambda data: re.findall(u"GEO:(.+),(.+)", data, re.IGNORECASE)[0],
     }
 
     def data_recognise(self, data = None):
@@ -74,7 +79,9 @@ class QR(object):
         elif data_lower.startswith(u"mailto:"): return u'email'
         elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
         elif data_lower.startswith(u"tel:"): return u'telephone'
-        elif data_lower.startswith(u"smsto:"): return u'sms' 
+        elif data_lower.startswith(u"smsto:"): return u'sms'
+        elif data_lower.startswith(u"mmsto:"): return u'mms'
+        elif data_lower.startswith(u"geo:"): return u'geo'
         else: return u'text'
 
     def __init__(
