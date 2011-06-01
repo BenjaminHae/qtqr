@@ -59,6 +59,7 @@ class QR(object):
         'mms' : lambda data : 'MMSTO:' + data[0] + ':' + data[1],
         'geo' : lambda data : 'geo:' + data[0] + ',' + data[1],
         'bookmark': lambda data : "MEBKM:TITLE:" + data[0] + ";URL:" + data[1] + ";;",
+        'phonebook': lambda data: "MECARD:N:%s;TEL:%s;EMAIL:%s;;" % data,
     }
 
     data_decode = {
@@ -71,6 +72,7 @@ class QR(object):
         'mms': lambda data: re.findall(u"MMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
         'geo': lambda data: re.findall(u"GEO:(.+),(.+)", data, re.IGNORECASE)[0],
         'bookmark': lambda data: re.findall(u"MEBKM:TITLE:(.+);URL:(.+);;", data, re.IGNORECASE)[0],
+        'phonebook': lambda data: re.findall(u"MECARD:N:(.+);TEL:(.+);EMAIL:(.+);;", data, re.IGNORECASE)[0],
     }
 
     def data_recognise(self, data = None):
@@ -85,6 +87,7 @@ class QR(object):
         elif data_lower.startswith(u"mmsto:"): return u'mms'
         elif data_lower.startswith(u"geo:"): return u'geo'
         elif data_lower.startswith(u"mebkm:title:"): return u'bookmark'
+        elif data_lower.startswith(u"mecard:"): return u'phonebook'
         else: return u'text'
 
     def __init__(
