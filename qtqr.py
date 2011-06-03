@@ -326,12 +326,21 @@ class MainWindow(QtGui.QMainWindow):
         self.tabs.currentChanged.connect(self.selector.setCurrentIndex)
         self.textEdit.textChanged.connect(self.qrencode)
         self.urlEdit.textChanged.connect(self.qrencode)
+        self.bookmarkTitleEdit.textChanged.connect(self.qrencode)
+        self.bookmarkUrlEdit.textChanged.connect(self.qrencode)
         self.emailEdit.textChanged.connect(self.qrencode)
         self.emailSubjectEdit.textChanged.connect(self.qrencode)
         self.emailBodyEdit.textChanged.connect(self.qrencode)
+        self.phonebookNameEdit.textChanged.connect(self.qrencode)
+        self.phonebookTelEdit.textChanged.connect(self.qrencode)
+        self.phonebookEMailEdit.textChanged.connect(self.qrencode)
         self.smsNumberEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(self.qrencode)
+        self.mmsNumberEdit.textChanged.connect(self.qrencode)
+        self.mmsBodyEdit.textChanged.connect(self.qrencode)
         self.telephoneEdit.textChanged.connect(self.qrencode)
+        self.geoLatEdit.textChanged.connect(self.qrencode)
+        self.geoLongEdit.textChanged.connect(self.qrencode)
         self.pixelSize.valueChanged.connect(self.qrencode)
         self.ecLevel.currentIndexChanged.connect(self.qrencode)
         self.marginSize.valueChanged.connect(self.qrencode)
@@ -424,11 +433,11 @@ class MainWindow(QtGui.QMainWindow):
         msg = {
             'text': lambda : u"QRCode contains the following text:\n\n%s" % (data),
             'url': lambda : u"QRCode contains the following url address:\n\n%s" % (data),
-            'bookmark': lambda: u"QRCode contains a bookmark:\nTitle:%s\nURL:%s" % (data),
+            'bookmark': lambda: u"QRCode contains a bookmark:\n\nTitle: %s\nURL: %s" % (data),
             'email': lambda : u"QRCode contains the following e-mail address:\n\n%s" % (data),
             'emailmessage': lambda : u"QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s" % (data),
             'telephone': lambda : u"QRCode contains a telephone number: " + (data),
-            'phonebook': lambda : u"QRCode contains a phonebook entry:\n\nName:%s\nTel:%s\nE-Mail:%s" % (data),
+            'phonebook': lambda : u"QRCode contains a phonebook entry:\n\nName: %s\nTel: %s\nE-Mail: %s" % (data),
             'sms': lambda : u"QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s" % (data),
             'mms': lambda : u"QRCode contains the following MMS message:\n\nTo: %s\nMessage: %s" % (data),
             'geo': lambda : u"QRCode contains the following coordinates:\n\nLatitude: %s\nLongitude:%s" % (data),
@@ -504,15 +513,15 @@ class MainWindow(QtGui.QMainWindow):
                 self.emailEdit.setText(data)
                 self.emailSubjectEdit.setText("")
                 self.emailBodyEdit.setPlainText("")
-                self.tabs.setCurrentIndex(2)
+                self.tabs.setCurrentIndex(3)
             elif qr.data_type == 'telephone':
                 self.telephoneEdit.setText(data)
                 self.tabs.setCurrentIndex(4)
             elif qr.data_type == 'phonebook':
                 self.phonebookNameEdit.setText(data[0])
-                self.phonebookTelEdit.setPlainText(data[1])
-                self.phonebookEMailEdit.setPlainText(data[2])
-                self.tabs.setCurrentIndex(6)
+                self.phonebookTelEdit.setText(data[1])
+                self.phonebookEMailEdit.setText(data[2])
+                self.tabs.setCurrentIndex(5)
             elif qr.data_type == 'sms':
                 self.smsNumberEdit.setText(data[0])
                 self.smsBodyEdit.setPlainText(data[1])
@@ -523,8 +532,8 @@ class MainWindow(QtGui.QMainWindow):
                 self.tabs.setCurrentIndex(7)
             elif qr.data_type == 'geo':
                 self.geoLatEdit.setText(data[0])
-                self.geoLongEdit.setPlainText(data[1])
-                self.tabs.setCurrentIndex(7)
+                self.geoLongEdit.setText(data[1])
+                self.tabs.setCurrentIndex(8)
 
     def decodeWebcam(self):
         QtGui.QMessageBox.information(
