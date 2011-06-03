@@ -18,7 +18,8 @@
 # details.
 #
 # You should have received a copy of the GNU General Public License along
-# with `qr.py`.  If not, see <http://www.gnu.org/licenses/>.
+# with `qrtools.py`.  If not, see <http://www.gnu.org/licenses/>.
+
 import subprocess
 import os
 import time
@@ -55,6 +56,10 @@ class QR(object):
                 r'^tel:', re.IGNORECASE
             ).sub('', data),
         'sms' : lambda data : 'SMSTO:' + data[0] + ':' + data[1],
+        'mms' : lambda data : 'MMSTO:' + data[0] + ':' + data[1],
+        'geo' : lambda data : 'geo:' + data[0] + ',' + data[1],
+        'bookmark': lambda data : "MEBKM:TITLE:" + data[0] + ";URL:" + data[1] + ";;",
+        'phonebook': lambda data: "MECARD:N:" + data[0] + ";TEL:" + data[1] + ";EMAIL:" + data[2] + ";;",
     }
 
     data_decode = {
@@ -64,6 +69,10 @@ class QR(object):
         'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.+);SUB:(.+);BODY:(.+);;", data, re.IGNORECASE)[0],
         'telephone': lambda data: data.replace(u"tel:",u"").replace(u"TEL:",u""),
         'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
+        'mms': lambda data: re.findall(u"MMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
+        'geo': lambda data: re.findall(u"GEO:(.+),(.+)", data, re.IGNORECASE)[0],
+        'bookmark': lambda data: re.findall(u"MEBKM:TITLE:(.+);URL:(.+);;", data, re.IGNORECASE)[0],
+        'phonebook': lambda data: re.findall(u"MECARD:N:(.+);TEL:(.+);EMAIL:(.+);;", data, re.IGNORECASE)[0],
     }
 
     def data_recognise(self, data = None):
@@ -74,7 +83,11 @@ class QR(object):
         elif data_lower.startswith(u"mailto:"): return u'email'
         elif data_lower.startswith(u"matmsg:to:"): return u'emailmessage'
         elif data_lower.startswith(u"tel:"): return u'telephone'
-        elif data_lower.startswith(u"smsto:"): return u'sms' 
+        elif data_lower.startswith(u"smsto:"): return u'sms'
+        elif data_lower.startswith(u"mmsto:"): return u'mms'
+        elif data_lower.startswith(u"geo:"): return u'geo'
+        elif data_lower.startswith(u"mebkm:title:"): return u'bookmark'
+        elif data_lower.startswith(u"mecard:"): return u'phonebook'
         else: return u'text'
 
     def __init__(
@@ -85,7 +98,7 @@ class QR(object):
         self.level = level
         self.margin_size = margin_size
         self.data_type = data_type
-        #you should pass data as a unicode object.
+        #you should pass data as a unicode object or a list/tuple of unicode objects.
         self.data = data
         #get a temp directory
         self.directory = os.path.join('/tmp', 'qr-%f' % time.time())
