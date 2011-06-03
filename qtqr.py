@@ -140,9 +140,9 @@ class MainWindow(QtGui.QMainWindow):
         self.mmsBodyEdit = QtGui.QPlainTextEdit()
 
         #Widgets for GEO Tab
-        self.geoLatLabel = QtGui.QLabel(u"Latitude")
+        self.geoLatLabel = QtGui.QLabel(u"Latitude:")
         self.geoLatEdit = QtGui.QLineEdit()
-        self.geoLongLabel = QtGui.QLabel(u"Longitude")
+        self.geoLongLabel = QtGui.QLabel(u"Longitude:")
         self.geoLongEdit = QtGui.QLineEdit()
 
         #Widgets for QREncode Parameters Configuration
