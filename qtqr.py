@@ -50,6 +50,7 @@ class MainWindow(QtGui.QMainWindow):
         #Tabs
         # self.tabs = QtGui.QTabWidget()
         # self.tabs.setTabPosition(2)
+        # We use this to put the tabs in a desired order.
         self.templateNames = (
             self.templates["text"],
             self.templates["url"],
@@ -494,46 +495,53 @@ class MainWindow(QtGui.QMainWindow):
         elif rsp == 0:
             #Edit the code
             data = qr.data_decode[qr.data_type](qr.data)
+            try:
+                tabIndex = self.templateNames.index(self.templates[qr.data_type])
+            except KeyError:
+                if qr.data_type == 'email':
+                    #We have to use the same tab index as EMail Message
+                    tabIndex = self.templateNames.index(self.templates["emailmessage"])
             if qr.data_type == 'text':
-                self.tabs.setCurrentIndex(0)
+                self.tabs.setCurrentIndex(tabIndex)
                 self.textEdit.setPlainText(data)
             elif qr.data_type == 'url':
-                self.tabs.setCurrentIndex(1)
+                self.tabs.setCurrentIndex(tabIndex)
                 self.urlEdit.setText(data)
             elif qr.data_type == 'bookmark':
                 self.bookmarkTitleEdit.setText(data[0])
                 self.bookmarkUrlEdit.setText(data[1])
-                self.tabs.setCurrentIndex(2)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'emailmessage':
                 self.emailEdit.setText(data[0])
                 self.emailSubjectEdit.setText(data[1])
                 self.emailBodyEdit.setPlainText(data[2])
-                self.tabs.setCurrentIndex(3)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'email':
                 self.emailEdit.setText(data)
                 self.emailSubjectEdit.setText("")
                 self.emailBodyEdit.setPlainText("")
-                self.tabs.setCurrentIndex(3)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'telephone':
                 self.telephoneEdit.setText(data)
-                self.tabs.setCurrentIndex(4)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'phonebook':
                 self.phonebookNameEdit.setText(data[0])
                 self.phonebookTelEdit.setText(data[1])
                 self.phonebookEMailEdit.setText(data[2])
-                self.tabs.setCurrentIndex(5)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'sms':
                 self.smsNumberEdit.setText(data[0])
                 self.smsBodyEdit.setPlainText(data[1])
-                self.tabs.setCurrentIndex(6)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'mms':
                 self.mmsNumberEdit.setText(data[0])
                 self.mmsBodyEdit.setPlainText(data[1])
-                self.tabs.setCurrentIndex(7)
+                self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'geo':
                 self.geoLatEdit.setText(data[0])
                 self.geoLongEdit.setText(data[1])
-                self.tabs.setCurrentIndex(8)
+                print qr.data_type, self.templateNames.index(self.templates[qr.data_type])
+                self.tabs.setCurrentIndex(tabIndex)
 
     def decodeWebcam(self):
         QtGui.QMessageBox.information(
