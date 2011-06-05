@@ -11,7 +11,14 @@ http://www.omgubuntu.co.uk/2011/03/how-to-create-qr-codes-in-ubuntu/
 import sys, os
 from PyQt4 import QtCore, QtGui
 from qrtools import QR
-
+try:
+    import pynotify
+    if not pynotify.init("QtQR"):
+        print "There was a problem initializing the pynotify module"
+    notifications = True
+except:
+    notifications = False
+    
 __author__ = "Ramiro Algozino"
 __email__ = "algozino@gmail.com"
 __copyright__ = "copyright (C) 2011 Ramiro Algozino"
@@ -389,7 +396,11 @@ class MainWindow(QtGui.QMainWindow):
                 self.qrcode.setPixmap(QtGui.QPixmap(qr.filename))
                 self.saveButton.setEnabled(True)
             else:
-                print >>sys.stderr, u"ERROR: Something went wrong while trying to generate de qrcode."
+                if notifications:
+                    n = pynotify.Notification("QtQR",u"ERROR: Something went wrong while trying to generate de QR Code.", "qtqr")
+                    n.show()
+                else:
+                    print "Something went worng while trying to generate the QR Code"
         else:
             self.saveButton.setEnabled(False)
 
@@ -399,8 +410,11 @@ class MainWindow(QtGui.QMainWindow):
             if not fn.toLower().endsWith(u".png"):
                 fn += u".png"
             self.qrcode.pixmap().save(fn)
-            print "Saving to file: %s" % fn
-            QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved to <b>%s</b>.' % fn)
+            if notifications:
+                n = pynotify.Notification("Save QR Code", "QR Code succesfully saved to %s" % fn, "qtqr")
+                n.show()
+            else:
+               QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved to <b>%s</b>.' % fn)
 
     def decodeFile(self, fn=None):
         if not fn:
