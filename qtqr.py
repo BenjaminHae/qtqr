@@ -609,7 +609,7 @@ class VideoDevices(QtGui.QDialog):
         self.icon.setPixmap(self.cameraIcon.pixmap(64,64))
         self.videoDevice = QtGui.QComboBox()
         self.videoDevice.addItems([vd[0] for vd in self.videoDevices])
-        self.label = QtGui.QLabel("You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady. Once you see a green rectangle you can close the window by pressing any key.\n\nPlease select the video device you want to use to decode:")
+        self.label = QtGui.QLabel("You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady. Once you see a green rectangle you can close the window by pressing any key.\n\nPlease select the video device you want to use for decoding:")
         self.label.setWordWrap(True)
         self.Buttons = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel)
         self.Buttons.accepted.connect(self.accept)
