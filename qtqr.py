@@ -553,24 +553,21 @@ class MainWindow(QtGui.QMainWindow):
                 self.tabs.setCurrentIndex(tabIndex)
 
     def decodeWebcam(self):
-        QtGui.QMessageBox.information(
-            self,
-            u"Decode from webcam",
-            u"You are about to decode from your webcam. Please put the code in front of your webcam with a good light source and keep it steady. Once you see a green rectangle you can close the window by pressing any key.",
-            QtGui.QMessageBox.Ok
-        )
-        qr = QR()
-        qr.decode_webcam()
-        if qr.data_decode[qr.data_type](qr.data) == 'NULL':
-            QtGui.QMessageBox.warning(
-                self,
-                u"Decoding Failed",
-                u"<p>Oops! no code was found.<br /> \
-                Maybe your webcam didn't focus.</p>",
-                QtGui.QMessageBox.Ok
-            )
-        else:
-            self.showInfo(qr)
+        vdDialog = VideoDevices()
+        if vdDialog.exec_():
+            device = vdDialog.videoDevices[vdDialog.videoDevice.currentIndex()][1]
+            qr = QR()
+            qr.decode_webcam(device=device)
+            if qr.data_decode[qr.data_type](qr.data) == 'NULL':
+                QtGui.QMessageBox.warning(
+                    self,
+                    u"Decoding Failed",
+                    u"<p>Oops! no code was found.<br /> \
+                    Maybe your webcam didn't focus.</p>",
+                    QtGui.QMessageBox.Ok
+                )
+            else:
+                self.showInfo(qr)
 
     def about(self):
         QtGui.QMessageBox.about(
@@ -596,6 +593,52 @@ class MainWindow(QtGui.QMainWindow):
         for fn in event.mimeData().urls():
             fn = fn.toLocalFile()
             self.decodeFile(unicode(fn))
+            
+
+class VideoDevices(QtGui.QDialog):
+    def __init__(self):
+        QtGui.QDialog.__init__(self)
+
+        self.videoDevices = []
+        for vd in self.getVideoDevices():
+            self.videoDevices.append(vd)
+
+        self.setWindowTitle('Decode from Webcam')
+        self.cameraIcon = QtGui.QIcon.fromTheme("camera")
+        self.icon = QtGui.QLabel()
+        self.icon.setPixmap(self.cameraIcon.pixmap(64,64))
+        self.videoDevice = QtGui.QComboBox()
+        self.videoDevice.addItems([vd[0] for vd in self.videoDevices])
+        self.label = QtGui.QLabel("You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady. Once you see a green rectangle you can close the window by pressing any key.\n\nPlease select the video device you want to use to decode:")
+        self.label.setWordWrap(True)
+        self.Buttons = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel)
+        self.Buttons.accepted.connect(self.accept)
+        self.Buttons.rejected.connect(self.reject)
+        self.layout = QtGui.QVBoxLayout()
+        self.hlayout = QtGui.QHBoxLayout()
+        self.vlayout = QtGui.QVBoxLayout()
+        self.hlayout.addWidget(self.icon)
+        self.vlayout.addWidget(self.label)
+        self.vlayout.addWidget(self.videoDevice)
+        self.hlayout.addLayout(self.vlayout)
+        self.layout.addLayout(self.hlayout)
+        self.layout.addWidget(self.Buttons)
+        
+        self.setLayout(self.layout)
+        
+
+    def getVideoDevices(self):
+        for dev in os.listdir("/dev/v4l/by-id"):
+            try:
+                yield([
+                    " ".join(dev.split("-")[1].split("_")), 
+                    os.path.join("/dev/v4l/by-id", dev)
+                ])
+            except:
+                yield([
+                    dev, 
+                    os.path.join("/dev/v4l/by-id", dev)
+                ])
 
 
 if __name__ == '__main__':
