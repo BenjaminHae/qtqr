@@ -510,7 +510,7 @@ class MainWindow(QtGui.QMainWindow):
             elif qr.data_type == 'geo':
                 link = 'http://maps.google.com/maps?q=%s,%s' % data
             elif qr.data_type == 'bookmark':
-                link = qr.data[1]
+                link = qr.data_decode[qr.data_type](qr.data)[1]
             else:
                 link = qr.data_decode[qr.data_type](qr.data)
             print u"Opening " + link
