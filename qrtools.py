@@ -66,7 +66,7 @@ class QR(object):
         'text': lambda data: data,
         'url': lambda data: data,
         'email': lambda data: data.replace(u"mailto:",u"").replace(u"MAILTO:",u""),
-        'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.+);SUB:(.+);BODY:(.+);;", data, re.IGNORECASE)[0],
+        'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.*);SUB:(.*);BODY:(.*);;", data, re.IGNORECASE)[0],
         'telephone': lambda data: data.replace(u"tel:",u"").replace(u"TEL:",u""),
         'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
         'mms': lambda data: re.findall(u"MMSTO:(.+):(.+)", data, re.IGNORECASE)[0],

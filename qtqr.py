@@ -357,10 +357,11 @@ class MainWindow(QtGui.QMainWindow):
 
     def qrencode(self):
         #Functions to get the correct data
-        data = {
+        data_fields = {
             "text": unicode(self.textEdit.toPlainText()),
             "url": unicode(self.urlEdit.text()),
             "bookmark": ( unicode(self.bookmarkTitleEdit.text()), unicode(self.bookmarkUrlEdit.text()) ),
+            "email": unicode(self.emailEdit.text()),
             "emailmessage": ( unicode(self.emailEdit.text()), unicode(self.emailSubjectEdit.text()), unicode(self.emailBodyEdit.toPlainText()) ),
             "telephone": unicode(self.telephoneEdit.text()),
             "phonebook": (unicode(self.phonebookNameEdit.text()), unicode(self.phonebookTelEdit.text()), unicode(self.phonebookEMailEdit.text()) ),
@@ -369,14 +370,20 @@ class MainWindow(QtGui.QMainWindow):
             "geo": ( unicode(self.geoLatEdit.text()), unicode(self.geoLongEdit.text()) ),
         }
 
+        data_type = unicode(self.templates[unicode(self.selector.currentText())])
+        data = data_fields[data_type]
+        
         level = (u'L',u'M',u'Q',u'H')
 
-        if data[self.templates[unicode(self.selector.currentText())]]:
+        if data:
+            if data_type == 'emailmessage' and data[1] == '' and data[2] == '':
+                data_type = 'email'
+                data = data_fields[data_type]
             qr = QR(pixel_size = unicode(self.pixelSize.value()),
-                    data = data[self.templates[unicode(self.selector.currentText())]],
+                    data = data,
                     level = unicode(level[self.ecLevel.currentIndex()]),
                     margin_size = unicode(self.marginSize.value()),
-                    data_type = unicode(self.templates[unicode(self.selector.currentText())]),
+                    data_type = data_type,
                     )
             if qr.encode() == 0:
                 self.qrcode.setPixmap(QtGui.QPixmap(qr.filename))
@@ -482,7 +489,9 @@ class MainWindow(QtGui.QMainWindow):
 
         if rsp == QtGui.QMessageBox.Yes:
             #Open Link
-            if qr.data_type == 'emailmessage':
+            if qr.data_type == 'email':
+                link = 'mailto:'+ data
+            elif qr.data_type == 'emailmessage':
                 link = 'mailto:%s?subject=%s&body=%s' % (data)
             elif qr.data_type == 'geo':
                 link = 'http://maps.google.com/maps?q=%s,%s' % data
