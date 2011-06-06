@@ -631,11 +631,12 @@ class VideoDevices(QtGui.QDialog):
         self.layout = QtGui.QVBoxLayout()
         self.hlayout = QtGui.QHBoxLayout()
         self.vlayout = QtGui.QVBoxLayout()
-        self.hlayout.addWidget(self.icon)
+        self.hlayout.addWidget(self.icon, 0, QtCore.Qt.AlignTop)
         self.vlayout.addWidget(self.label)
         self.vlayout.addWidget(self.videoDevice)
         self.hlayout.addLayout(self.vlayout)
         self.layout.addLayout(self.hlayout)
+        self.layout.addStretch()
         self.layout.addWidget(self.Buttons)
         
         self.setLayout(self.layout)
