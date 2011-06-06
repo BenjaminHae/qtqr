@@ -623,7 +623,7 @@ class VideoDevices(QtGui.QDialog):
         self.icon.setPixmap(self.cameraIcon.pixmap(64,64))
         self.videoDevice = QtGui.QComboBox()
         self.videoDevice.addItems([vd[0] for vd in self.videoDevices])
-        self.label = QtGui.QLabel("You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady. Once you see a green rectangle you can close the window by pressing any key.\n\nPlease select the video device you want to use for decoding:")
+        self.label = QtGui.QLabel("You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady.\nOnce you see a green rectangle you can close the window by pressing any key.\n\nPlease select the video device you want to use for decoding:")
         self.label.setWordWrap(True)
         self.Buttons = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Cancel)
         self.Buttons.accepted.connect(self.accept)
@@ -659,6 +659,16 @@ class VideoDevices(QtGui.QDialog):
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     mw = MainWindow()
+    # This is to make Qt use locale configuratoin; i.e. Standard Buttons
+    # in your system's language. 
+    locale = unicode(QtCore.QLocale.system().name())
+    qtTranslator=QtCore.QTranslator()
+    qtTranslator.load("qt_" + locale,
+                    QtCore.QLibraryInfo.location(
+                    QtCore.QLibraryInfo.TranslationsPath)
+                    )
+    app.installTranslator(qtTranslator);   
+    
     mw.show()
     if len(app.argv())>1:
         #Open the file and try to decode it
