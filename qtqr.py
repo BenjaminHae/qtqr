@@ -139,6 +139,7 @@ class MainWindow(QtGui.QMainWindow):
         self.smsNumberEdit = QtGui.QLineEdit()
         self.smsBodyLabel = QtGui.QLabel(u'Message:')
         self.smsBodyEdit = QtGui.QPlainTextEdit()
+        self.smsCharCount = QtGui.QLabel("characters count: 0")
 
         #Widgets for MMS Tab
         self.mmsNumberLabel = QtGui.QLabel(u'Telephone Number:')
@@ -262,6 +263,7 @@ class MainWindow(QtGui.QMainWindow):
         self.smsTabLayout.addWidget(self.smsNumberEdit)
         self.smsTabLayout.addWidget(self.smsBodyLabel)
         self.smsTabLayout.addWidget(self.smsBodyEdit, 1)
+        self.smsTabLayout.addWidget(self.smsCharCount)
         self.smsTabLayout.addStretch()
         self.smsTab.setLayout(self.smsTabLayout)
 
@@ -344,6 +346,12 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookEMailEdit.textChanged.connect(self.qrencode)
         self.smsNumberEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(self.qrencode)
+        self.smsBodyEdit.textChanged.connect(
+            lambda: self.smsCharCount.setText(
+                "characters count: %s" %
+                len(self.smsBodyEdit.toPlainText())
+                )
+            )
         self.mmsNumberEdit.textChanged.connect(self.qrencode)
         self.mmsBodyEdit.textChanged.connect(self.qrencode)
         self.telephoneEdit.textChanged.connect(self.qrencode)
@@ -607,7 +615,7 @@ class MainWindow(QtGui.QMainWindow):
         for fn in event.mimeData().urls():
             fn = fn.toLocalFile()
             self.decodeFile(unicode(fn))
-            
+
 
 class VideoDevices(QtGui.QDialog):
     def __init__(self):
