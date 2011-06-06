@@ -9,6 +9,7 @@ http://www.omgubuntu.co.uk/2011/03/how-to-create-qr-codes-in-ubuntu/
 """
 
 import sys, os
+from math import ceil
 from PyQt4 import QtCore, QtGui
 from qrtools import QR
 try:
@@ -348,8 +349,10 @@ class MainWindow(QtGui.QMainWindow):
         self.smsBodyEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(
             lambda: self.smsCharCount.setText(
-                "characters count: %s" %
-                len(self.smsBodyEdit.toPlainText())
+                "characters count: %s - %d message(s)" % (
+                len(self.smsBodyEdit.toPlainText()),
+                ceil(len(self.smsBodyEdit.toPlainText()) / 160.0)
+                )                    
                 )
             )
         self.mmsNumberEdit.textChanged.connect(self.qrencode)
