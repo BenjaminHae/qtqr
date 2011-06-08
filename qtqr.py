@@ -32,7 +32,7 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMainWindow.__init__(self)
 
         self.setWindowTitle(u'QtQR: QR Code Generator')
-        icon = os.path.join(os.path.dirname(__file__), u'logo_a_la_faenza.png')
+        icon = os.path.join(os.path.dirname(__file__), u'icon.png')
         if not QtCore.QFile(icon).exists():
             icon = u'/usr/share/pixmaps/qtqr.png'
         self.setWindowIcon(QtGui.QIcon(icon))
@@ -40,7 +40,7 @@ class MainWindow(QtGui.QMainWindow):
         self.setCentralWidget(self.w)
         self.setAcceptDrops(True)
 
-        #Templates for creating QRCodes supported by qrtools
+        # Templates for creating QRCodes supported by qrtools
         self.templates = {
             "text": "Text",
             "url": "URL",
@@ -52,10 +52,10 @@ class MainWindow(QtGui.QMainWindow):
             "mms": "MMS",
             "geo": "Geolocalization",
             }
-        #With this we make the dict bidirectional
+        # With this we make the dict bidirectional
         self.templates.update( dict((self.templates[k], k) for k in self.templates))
 
-        #Tabs
+        # Tabs
         # self.tabs = QtGui.QTabWidget()
         # self.tabs.setTabPosition(2)
         # We use this to put the tabs in a desired order.
@@ -408,7 +408,11 @@ class MainWindow(QtGui.QMainWindow):
                 self.saveButton.setEnabled(True)
             else:
                 if notifications:
-                    n = pynotify.Notification("QtQR",u"ERROR: Something went wrong while trying to generate de QR Code.", "qtqr")
+                    n = pynotify.Notification(
+                        "QtQR",
+                        u"ERROR: Something went wrong while trying to generate de QR Code.",
+                        "qtqr"
+                        )
                     n.show()
                 else:
                     print "Something went worng while trying to generate the QR Code"
@@ -422,10 +426,18 @@ class MainWindow(QtGui.QMainWindow):
                 fn += u".png"
             self.qrcode.pixmap().save(fn)
             if notifications:
-                n = pynotify.Notification("Save QR Code", "QR Code succesfully saved to %s" % fn, "qtqr")
+                n = pynotify.Notification(
+                    "Save QR Code",
+                    "QR Code succesfully saved to %s" % fn,
+                    "qtqr"
+                    )
                 n.show()
             else:
-               QtGui.QMessageBox.information(self, u'Save QRCode',u'QRCode succesfully saved to <b>%s</b>.' % fn)
+               QtGui.QMessageBox.information(
+                    self, 
+                    u'Save QRCode',
+                    u'QRCode succesfully saved to <b>%s</b>.' % fn
+                    )
 
     def decodeFile(self, fn=None):
         if not fn:
@@ -521,7 +533,7 @@ class MainWindow(QtGui.QMainWindow):
             elif qr.data_type == 'geo':
                 link = 'http://maps.google.com/maps?q=%s,%s' % data
             elif qr.data_type == 'bookmark':
-                link = qr.data_decode[qr.data_type](qr.data)[1]
+                link = data[1]
             else:
                 link = qr.data_decode[qr.data_type](qr.data)
             print u"Opening " + link
@@ -574,7 +586,6 @@ class MainWindow(QtGui.QMainWindow):
             elif qr.data_type == 'geo':
                 self.geoLatEdit.setText(data[0])
                 self.geoLongEdit.setText(data[1])
-                print qr.data_type, self.templateNames.index(self.templates[qr.data_type])
                 self.tabs.setCurrentIndex(tabIndex)
 
     def decodeWebcam(self):
@@ -670,7 +681,7 @@ class VideoDevices(QtGui.QDialog):
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     mw = MainWindow()
-    # This is to make Qt use locale configuratoin; i.e. Standard Buttons
+    # This is to make Qt use locale configuration; i.e. Standard Buttons
     # in your system's language. 
     locale = unicode(QtCore.QLocale.system().name())
     qtTranslator=QtCore.QTranslator()
