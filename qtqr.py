@@ -56,8 +56,6 @@ class MainWindow(QtGui.QMainWindow):
         self.templates.update( dict((self.templates[k], k) for k in self.templates))
 
         # Tabs
-        # self.tabs = QtGui.QTabWidget()
-        # self.tabs.setTabPosition(2)
         # We use this to put the tabs in a desired order.
         self.templateNames = (
             self.templates["text"],
@@ -82,23 +80,14 @@ class MainWindow(QtGui.QMainWindow):
         self.smsTab = QtGui.QWidget()
         self.mmsTab = QtGui.QWidget()
         self.geoTab = QtGui.QWidget()
-        # self.tabs.addTab(self.textTab, u"&Text")
         self.tabs.addWidget(self.textTab)
-        # self.tabs.addTab(self.urlTab, u"&URL")
         self.tabs.addWidget(self.urlTab)
-        # self.tabs.addTab(self.bookmarkTab, u"&Bookmark")
         self.tabs.addWidget(self.bookmarkTab)
-        # self.tabs.addTab(self.emailTab, u"&Email")
         self.tabs.addWidget(self.emailTab)
-        # self.tabs.addTab(self.telTab, u"&Telephone")
         self.tabs.addWidget(self.telTab)
-        # self.tabs.addTab(self.phonebookTab, u"&Contact Information")
         self.tabs.addWidget(self.phonebookTab)
-        # self.tabs.addTab(self.smsTab, u"&SMS")
         self.tabs.addWidget(self.smsTab)
-        # self.tabs.addTab(self.mmsTab, u"&MMS")
         self.tabs.addWidget(self.mmsTab)
-        # self.tabs.addTab(self.geoTab, u"&Geolocalization")
         self.tabs.addWidget(self.geoTab)
 
         #Widgets for Text Tab
@@ -171,6 +160,9 @@ class MainWindow(QtGui.QMainWindow):
         self.qrcode = QtGui.QLabel(u'Start typing to create QR Code\n or  drop here a file for decoding.')
         self.qrcode.setFrameShape(QtGui.QFrame.StyledPanel)
         self.qrcode.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignHCenter)
+        self.scroll = QtGui.QScrollArea()
+        self.scroll.setWidgetResizable(True)
+        self.scroll.setWidget(self.qrcode)
 
         #Save and Decode Buttons
         self.saveButton = QtGui.QPushButton(QtGui.QIcon.fromTheme(u'document-save'), u'&Save QRCode')
@@ -313,24 +305,20 @@ class MainWindow(QtGui.QMainWindow):
 
         #Main Window Layout
         self.selectorBox = QtGui.QGroupBox("Select data type:")
-#        self.selectorLayout = QtGui.QVBoxLayout()
-#        self.selectorLayout.addWidget(self.selector)
 
         self.vlayout1 = QtGui.QVBoxLayout()
-#        self.vlayout1.addWidget(self.selectorBox)
         self.vlayout1.addWidget(self.selector)
         self.vlayout1.addWidget(self.tabs, 1)
 
         self.vlayout2 = QtGui.QVBoxLayout()
         self.vlayout2.addWidget(self.optionsGroup)
-        self.vlayout2.addWidget(self.qrcode, 1)
+        self.vlayout2.addWidget(self.scroll, 1)
         self.vlayout2.addLayout(self.buttons)
 
         self.layout = QtGui.QHBoxLayout(self.w)
-#        self.layout.addLayout(self.vlayout1)
         self.selectorBox.setLayout(self.vlayout1)
         self.layout.addWidget(self.selectorBox)
-        self.layout.addLayout(self.vlayout2)
+        self.layout.addLayout(self.vlayout2, 1)
 
         #Signals
         self.selector.currentIndexChanged.connect(self.tabs.setCurrentIndex)
