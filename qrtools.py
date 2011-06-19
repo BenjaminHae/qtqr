@@ -107,7 +107,11 @@ class QR(object):
 
     def data_to_string(self):
         """Returns a UTF8 string with the QR Code's data"""
-        return BOM_UTF8 + self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
+        # FIX-ME: if we don't add the BOM_UTF8 char, QtQR doesn't decode 
+        # correctly; but if we add it, mobile apps don't.- 
+        # Apparently is a zbar bug.
+        # return BOM_UTF8 + self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
+        return self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
 
     def get_tmp_file(self):
         return os.path.join(
@@ -140,7 +144,7 @@ class QR(object):
             width, height = pil.size
             raw = pil.tostring()
             # wrap image data
-            image = zbar.Image(width, height, 'Y800', raw)
+            image = zbar.Image(width, height, 'Y800', BOM_UTF8 + raw)
             # scan the image for barcodes
             result = scanner.scan(image)
             # extract results

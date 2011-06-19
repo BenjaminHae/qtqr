@@ -15,10 +15,10 @@ from qrtools import QR
 try:
     import pynotify
     if not pynotify.init("QtQR"):
-        print "There was a problem initializing the pynotify module"
-    notifications = True
+        print "DEBUG: There was a problem initializing the pynotify module"
+    NOTIFY = True
 except:
-    notifications = False
+    NOTIFY = False
     
 __author__ = "Ramiro Algozino"
 __email__ = "algozino@gmail.com"
@@ -149,7 +149,7 @@ class MainWindow(QtGui.QMainWindow):
         self.l2 = QtGui.QLabel(u'&Pixel Size:')
         self.pixelSize = QtGui.QSpinBox()
 
-        self.l3 = QtGui.QLabel(u'&EC Level:')
+        self.l3 = QtGui.QLabel(u'&Error Correction:')
         self.ecLevel = QtGui.QComboBox()
         self.ecLevel.addItems((u'Lowest', u'Medium', u'QuiteGood', u'Highest'))
 
@@ -157,8 +157,7 @@ class MainWindow(QtGui.QMainWindow):
         self.marginSize = QtGui.QSpinBox()
 
         #QLabel for displaying the Generated QRCode
-        self.qrcode = QtGui.QLabel(u'Start typing to create QR Code\n or  drop here a file for decoding.')
-        self.qrcode.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.qrcode = QtGui.QLabel(u'Start typing to create QR Code\n or  drop here image files for decoding.')
         self.qrcode.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignHCenter)
         self.scroll = QtGui.QScrollArea()
         self.scroll.setWidgetResizable(True)
@@ -395,7 +394,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.qrcode.setPixmap(QtGui.QPixmap(qr.filename))
                 self.saveButton.setEnabled(True)
             else:
-                if notifications:
+                if NOTIFY:
                     n = pynotify.Notification(
                         "QtQR",
                         u"ERROR: Something went wrong while trying to generate de QR Code.",
@@ -413,7 +412,7 @@ class MainWindow(QtGui.QMainWindow):
             if not fn.toLower().endsWith(u".png"):
                 fn += u".png"
             self.qrcode.pixmap().save(fn)
-            if notifications:
+            if NOTIFY:
                 n = pynotify.Notification(
                     "Save QR Code",
                     "QR Code succesfully saved to %s" % fn,
@@ -630,7 +629,7 @@ class VideoDevices(QtGui.QDialog):
         self.setWindowTitle('Decode from Webcam')
         self.cameraIcon = QtGui.QIcon.fromTheme("camera")
         self.icon = QtGui.QLabel()
-        self.icon.setPixmap(self.cameraIcon.pixmap(64,64))
+        self.icon.setPixmap(self.cameraIcon.pixmap(64,64).scaled(64,64))
         self.videoDevice = QtGui.QComboBox()
         self.videoDevice.addItems([vd[0] for vd in self.videoDevices])
         self.label = QtGui.QLabel("You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady.\nOnce you see a green rectangle you can close the window by pressing any key.\n\nPlease select the video device you want to use for decoding:")
