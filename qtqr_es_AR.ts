@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="es_AR">
+<!DOCTYPE TS>
+<TS version="2.0" language="es_AR">
 <context>
     <name>MainWindow</name>
     <message>
@@ -459,6 +460,11 @@ Longitude:%s</source>
 
 Latitud: %s
 Longitud: %s</translation>
+    </message>
+    <message>
+        <location filename="qtqr.py" line="344"/>
+        <source>characters count: %s - %d message(s)</source>
+        <translation>cantidad de caracteres: %s - %d mensaje(s)</translation>
     </message>
 </context>
 <context>

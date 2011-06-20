@@ -343,7 +343,7 @@ class MainWindow(QtGui.QMainWindow):
         self.smsBodyEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(
             lambda: self.smsCharCount.setText(
-                "characters count: %s - %d message(s)" % (
+                unicode(self.trUtf8("characters count: %s - %d message(s)")) % (
                 len(self.smsBodyEdit.toPlainText()),
                 ceil(len(self.smsBodyEdit.toPlainText()) / 160.0)
                 )                    
