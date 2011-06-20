@@ -68,11 +68,11 @@ class QR(object):
         'email': lambda data: data.replace(u"mailto:",u"").replace(u"MAILTO:",u""),
         'emailmessage': lambda data: re.findall(u"MATMSG:TO:(.*);SUB:(.*);BODY:(.*);;", data, re.IGNORECASE)[0],
         'telephone': lambda data: data.replace(u"tel:",u"").replace(u"TEL:",u""),
-        'sms': lambda data: re.findall(u"SMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
-        'mms': lambda data: re.findall(u"MMSTO:(.+):(.+)", data, re.IGNORECASE)[0],
-        'geo': lambda data: re.findall(u"GEO:(.+),(.+)", data, re.IGNORECASE)[0],
-        'bookmark': lambda data: re.findall(u"MEBKM:TITLE:(.+);URL:(.+);;", data, re.IGNORECASE)[0],
-        'phonebook': lambda data: re.findall(u"MECARD:N:(.+);TEL:(.+);EMAIL:(.+);;", data, re.IGNORECASE)[0],
+        'sms': lambda data: re.findall(u"SMSTO:(.*):(.*)", data, re.IGNORECASE)[0],
+        'mms': lambda data: re.findall(u"MMSTO:(.*):(.*)", data, re.IGNORECASE)[0],
+        'geo': lambda data: re.findall(u"GEO:(.*),(.*)", data, re.IGNORECASE)[0],
+        'bookmark': lambda data: re.findall(u"MEBKM:TITLE:(.*);URL:(.*);;", data, re.IGNORECASE)[0],
+        'phonebook': lambda data: re.findall(u"MECARD:N:(.*);TEL:(.*);EMAIL:(.*);;", data, re.IGNORECASE)[0],
     }
 
     def data_recognise(self, data = None):
@@ -144,7 +144,7 @@ class QR(object):
             width, height = pil.size
             raw = pil.tostring()
             # wrap image data
-            image = zbar.Image(width, height, 'Y800', BOM_UTF8 + raw)
+            image = zbar.Image(width, height, 'Y800', raw)
             # scan the image for barcodes
             result = scanner.scan(image)
             # extract results
