@@ -182,7 +182,7 @@
         <location filename="qtqr.py" line="167"/>
         <source>Start typing to create QR Code
  or  drop here image files for decoding.</source>
-        <translation type="unfinished">Comenzá a escribir para generar el código QR
+        <translation>Comenzá a escribir para generar el Código QR
 o soltá un archivo imagen con el código acá.</translation>
     </message>
     <message>
@@ -297,7 +297,7 @@ Do you want to </source>
     <message>
         <location filename="qtqr.py" line="514"/>
         <source>Decode QRCode</source>
-        <translation>Decodifcar Código QR</translation>
+        <translation type="unfinished">Decodificar Código QR</translation>
     </message>
     <message>
         <location filename="qtqr.py" line="521"/>
