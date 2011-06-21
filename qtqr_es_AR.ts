@@ -79,11 +79,6 @@
         <translation>Dirección de E-Mail:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="109"/>
-        <source>@.com</source>
-        <translation type="obsolete">@.com</translation>
-    </message>
-    <message>
         <location filename="qtqr.py" line="110"/>
         <source>Subject:</source>
         <translation>Asunto:</translation>
@@ -261,11 +256,6 @@ o soltá un archivo imagen con el código acá.</translation>
         <translation>Decodificar archivo</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="427"/>
-        <source>QR Code succesfully saved to</source>
-        <translation type="obsolete">El código QR se guardó correctamente en </translation>
-    </message>
-    <message>
         <location filename="qtqr.py" line="488"/>
         <source>
 
@@ -297,7 +287,7 @@ Do you want to </source>
     <message>
         <location filename="qtqr.py" line="514"/>
         <source>Decode QRCode</source>
-        <translation type="unfinished">Decodificar Código QR</translation>
+        <translation>Decodificar Código QR</translation>
     </message>
     <message>
         <location filename="qtqr.py" line="521"/>
@@ -310,39 +300,9 @@ Do you want to </source>
         <translation>Falló la Decodificación</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="596"/>
-        <source>&lt;p&gt;Oops! no code was found.&lt;br /&gt; 
-                    Maybe your webcam didn&apos;t focus.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Ups! no encontramos ningún código.&lt;br /&gt;
-Talvez la webcam no hizo foco.&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="qtqr.py" line="607"/>
+        <location filename="qtqr.py" line="606"/>
         <source>About QtQR</source>
         <translation>Acerca de QtQR</translation>
-    </message>
-    <message>
-        <location filename="qtqr.py" line="607"/>
-        <source>&lt;h1&gt;QtQR %s&lt;/h1&gt;
-            &lt;p&gt;A simple software for creating and decoding QR Codes that uses &lt;a href=&quot;https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk&quot;&gt;python-qrtools&lt;/a&gt; as backend. Both are part of the &lt;a href=&quot;https://launchpad.net/qr-tools&quot;&gt;QR Tools&lt;/a&gt; project.&lt;/p&gt;
-            &lt;p&gt;&lt;/p&gt;
-            &lt;p&gt;This is Free Software: GNU-GPLv3&lt;/p&gt; 
-            &lt;p&gt;&lt;/p&gt;
-            &lt;p&gt;Please visit our website for more information and to check out the code:&lt;br /&gt;
-            &lt;a href=&quot;https://launchpad.net/~qr-tools-developers/qtqr&quot;&gt;
-            https://launchpad.net/~qr-tools-developers/qtqr&lt;/p&gt; 
-            &lt;p&gt;copyright &amp;copy; Ramiro Algozino 
-            &amp;lt;&lt;a href=&quot;mailto:algozino@gmail.com&quot;&gt;algozino@gmail.com&lt;/a&gt;&amp;gt;&lt;/p&gt;</source>
-        <translation>&lt;h1&gt;QtQR %s&lt;/h1&gt;
-&lt;p&gt;Un simple software para crear y decodificar códigos QR que utiliza &lt;a href=&quot;https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk&quot;&gt;python-qrtools&lt;/a&gt; como backend. Ambos son parte del proyecto &lt;a href=&quot;https://launchpad.net/qr-tools&quot;&gt;QR Tools&lt;/a&gt; .&lt;/p&gt;
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;Estos es software gratuito: GNU-GPLv3&lt;/p&gt; 
-&lt;p&gt;&lt;/p&gt;
-&lt;p&gt;Por favor, visitá nuestro sitio web para más información y para obtener el códio fuente:&lt;br /&gt;
-&lt;a href=&quot;https://launchpad.net/~qr-tools-developers/qtqr&quot;&gt;
-https://launchpad.net/~qr-tools-developers/qtqr&lt;/p&gt; 
-&lt;p&gt;copyright &amp;copy; Ramiro Algozino 
-&amp;lt;&lt;a href=&quot;mailto:algozino@gmail.com&quot;&gt;algozino@gmail.com&lt;/a&gt;&amp;gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="qtqr.py" line="427"/>
@@ -466,16 +426,35 @@ Longitud: %s</translation>
         <source>characters count: %s - %d message(s)</source>
         <translation>cantidad de caracteres: %s - %d mensaje(s)</translation>
     </message>
+    <message>
+        <location filename="qtqr.py" line="596"/>
+        <source>&lt;p&gt;Oops! no code was found.&lt;br /&gt; Maybe your webcam didn&apos;t focus.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Caray! no encontramos ningún código.&lt;br /&gt;Talvez la webcam no hizo foco.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="qtqr.py" line="606"/>
+        <source>&lt;h1&gt;QtQR %s&lt;/h1&gt;&lt;p&gt;A simple software for creating and decoding QR Codes that uses &lt;a href=&quot;https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk&quot;&gt;python-qrtools&lt;/a&gt; as backend. Both are part of the &lt;a href=&quot;https://launchpad.net/qr-tools&quot;&gt;QR Tools&lt;/a&gt; project.&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is Free Software: GNU-GPLv3&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Please visit our website for more information and to check out the code:&lt;br /&gt;&lt;a href=&quot;https://launchpad.net/~qr-tools-developers/qtqr&quot;&gt;https://launchpad.net/~qr-tools-developers/qtqr&lt;/p&gt;&lt;p&gt;copyright &amp;copy; Ramiro Algozino &amp;lt;&lt;a href=&quot;mailto:algozino@gmail.com&quot;&gt;algozino@gmail.com&lt;/a&gt;&amp;gt;&lt;/p&gt;</source>
+        <translation>&lt;h1&gt;QtQR %s&lt;/h1&gt;
+&lt;p&gt;Un simple software para crear y decodificar códigos QR que utiliza &lt;a href=&quot;https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk&quot;&gt;python-qrtools&lt;/a&gt; como backend. Ambos son parte del proyecto &lt;a href=&quot;https://launchpad.net/qr-tools&quot;&gt;QR Tools&lt;/a&gt; .&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Estos es software gratuito: GNU-GPLv3&lt;/p&gt; 
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;Por favor, visitá nuestro sitio web para más información y para obtener el códio fuente:&lt;br /&gt;
+&lt;a href=&quot;https://launchpad.net/~qr-tools-developers/qtqr&quot;&gt;
+https://launchpad.net/~qr-tools-developers/qtqr&lt;/p&gt; 
+&lt;p&gt;copyright &amp;copy; Ramiro Algozino 
+&amp;lt;&lt;a href=&quot;mailto:algozino@gmail.com&quot;&gt;algozino@gmail.com&lt;/a&gt;&amp;gt;&lt;/p&gt;</translation>
+    </message>
 </context>
 <context>
     <name>VideoDevices</name>
     <message>
-        <location filename="qtqr.py" line="640"/>
+        <location filename="qtqr.py" line="630"/>
         <source>Decode from Webcam</source>
         <translation>Decodificar desde la Webcam</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="646"/>
+        <location filename="qtqr.py" line="636"/>
         <source>You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady.
 Once you see a green rectangle you can close the window by pressing any key.
 

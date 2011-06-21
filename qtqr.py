@@ -596,8 +596,7 @@ class MainWindow(QtGui.QMainWindow):
                 QtGui.QMessageBox.warning(
                     self,
                     self.trUtf8("Decoding Failed"),
-                    self.trUtf8("<p>Oops! no code was found.<br /> \
-                    Maybe your webcam didn't focus.</p>"),
+                    self.trUtf8("<p>Oops! no code was found.<br /> Maybe your webcam didn't focus.</p>"),
                     QtGui.QMessageBox.Ok
                 )
             else:
@@ -607,16 +606,7 @@ class MainWindow(QtGui.QMainWindow):
         QtGui.QMessageBox.about(
             self,
             self.trUtf8("About QtQR"),
-            unicode(self.trUtf8('<h1>QtQR %s</h1>\
-            <p>A simple software for creating and decoding QR Codes that uses <a href="https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk">python-qrtools</a> as backend. Both are part of the <a href="https://launchpad.net/qr-tools">QR Tools</a> project.</p>\
-            <p></p>\
-            <p>This is Free Software: GNU-GPLv3</p> \
-            <p></p>\
-            <p>Please visit our website for more information and to check out the code:<br />\
-            <a href="https://launchpad.net/~qr-tools-developers/qtqr">\
-            https://launchpad.net/~qr-tools-developers/qtqr</p> \
-            <p>copyright &copy; Ramiro Algozino \
-            &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>')) % __version__,
+            unicode(self.trUtf8('<h1>QtQR %s</h1><p>A simple software for creating and decoding QR Codes that uses <a href="https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk">python-qrtools</a> as backend. Both are part of the <a href="https://launchpad.net/qr-tools">QR Tools</a> project.</p><p></p><p>This is Free Software: GNU-GPLv3</p><p></p><p>Please visit our website for more information and to check out the code:<br /><a href="https://launchpad.net/~qr-tools-developers/qtqr">https://launchpad.net/~qr-tools-developers/qtqr</p><p>copyright &copy; Ramiro Algozino &lt;<a href="mailto:algozino@gmail.com">algozino@gmail.com</a>&gt;</p>')) % __version__,
         )
 
     def dragEnterEvent(self, event):
