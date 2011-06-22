@@ -110,8 +110,10 @@ class QR(object):
         # FIX-ME: if we don't add the BOM_UTF8 char, QtQR doesn't decode 
         # correctly; but if we add it, mobile apps don't.- 
         # Apparently is a zbar bug.
-        # return BOM_UTF8 + self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
-        return self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
+        if self.data_type == 'text':
+            return BOM_UTF8 + self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
+        else:
+            return self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
 
     def get_tmp_file(self):
         return os.path.join(
