@@ -471,6 +471,11 @@ class MainWindow(QtGui.QMainWindow):
         if type(data) == tuple:
             for d in data:
                 print d.encode(u"utf-8")
+        elif type(data) == dict:
+                # FIX-ME: Print the decoded symbols
+                print "Dict"
+                print data.keys()
+                print data.values()
         else:
             print data.encode(u"utf-8")
         msg = {
@@ -480,7 +485,7 @@ class MainWindow(QtGui.QMainWindow):
             'email': lambda : unicode(self.trUtf8("QRCode contains the following e-mail address:\n\n%s")) % (data),
             'emailmessage': lambda : unicode(self.trUtf8("QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s")) % (data),
             'telephone': lambda : unicode(self.trUtf8("QRCode contains a telephone number: ")) + (data),
-            'phonebook': lambda : unicode(self.trUtf8("QRCode contains a phonebook entry:\n\nName: %s\nTel: %s\nE-Mail: %s")) % (data),
+            'phonebook': lambda : unicode(self.trUtf8("QRCode contains a phonebook entry:\n\nName: %s\nTel: %s\nE-Mail: %s")) % (data.get('N') or "", data.get('TEL') or "", data.get('EMAIL') or ""),
             'sms': lambda : unicode(self.trUtf8("QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'mms': lambda : unicode(self.trUtf8("QRCode contains the following MMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'geo': lambda : unicode(self.trUtf8("QRCode contains the following coordinates:\n\nLatitude: %s\nLongitude:%s")) % (data),
@@ -569,9 +574,9 @@ class MainWindow(QtGui.QMainWindow):
                 self.telephoneEdit.setText(data)
                 self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'phonebook':
-                self.phonebookNameEdit.setText(data[0])
-                self.phonebookTelEdit.setText(data[1])
-                self.phonebookEMailEdit.setText(data[2])
+                self.phonebookNameEdit.setText(data.get("N") or "")
+                self.phonebookTelEdit.setText(data.get("TEL") or "")
+                self.phonebookEMailEdit.setText(data.get("EMAIL") or "")
                 self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'sms':
                 self.smsNumberEdit.setText(data[0])

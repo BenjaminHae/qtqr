@@ -72,7 +72,7 @@ class QR(object):
         'mms': lambda data: re.findall(u"MMSTO:(.*):(.*)", data, re.IGNORECASE)[0],
         'geo': lambda data: re.findall(u"GEO:(.*),(.*)", data, re.IGNORECASE)[0],
         'bookmark': lambda data: re.findall(u"MEBKM:TITLE:(.*);URL:(.*);;", data, re.IGNORECASE)[0],
-        'phonebook': lambda data: re.findall(u"MECARD:N:(.*);TEL:(.*);EMAIL:(.*);;", data, re.IGNORECASE)[0],
+        'phonebook': lambda data: dict(re.findall("(.*?):(.*?);", data.replace("MECARD:",""), re.IGNORECASE))
     }
 
     def data_recognise(self, data = None):
