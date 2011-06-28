@@ -123,6 +123,14 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookTelEdit = QtGui.QLineEdit()
         self.phonebookEMailLabel = QtGui.QLabel(self.trUtf8("E-Mail:"))
         self.phonebookEMailEdit = QtGui.QLineEdit()
+        self.phonebookNoteLabel = QtGui.QLabel(self.trUtf8("Note:"))
+        self.phonebookNoteEdit = QtGui.QLineEdit()
+        self.phonebookBirthdayLabel = QtGui.QLabel(self.trUtf8("Birthday:"))
+        self.phonebookBirthdayEdit = QtGui.QLineEdit()
+        self.phonebookAddressLabel = QtGui.QLabel(self.trUtf8("Address:"))
+        self.phonebookAddressEdit =  QtGui.QLineEdit()
+        self.phonebookUrlLabel = QtGui.QLabel(self.trUtf8("URL:"))
+        self.phonebookUrlEdit =  QtGui.QLineEdit()
 
         #Widgets for SMS Tab
         self.smsNumberLabel = QtGui.QLabel(self.trUtf8('Telephone Number:'))
@@ -253,6 +261,14 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookTabLayout.addWidget(self.phonebookTelEdit)
         self.phonebookTabLayout.addWidget(self.phonebookEMailLabel)
         self.phonebookTabLayout.addWidget(self.phonebookEMailEdit)
+        self.phonebookTabLayout.addWidget(self.phonebookNoteLabel)
+        self.phonebookTabLayout.addWidget(self.phonebookNoteEdit)
+        self.phonebookTabLayout.addWidget(self.phonebookBirthdayLabel)
+        self.phonebookTabLayout.addWidget(self.phonebookBirthdayEdit)
+        self.phonebookTabLayout.addWidget(self.phonebookAddressLabel)
+        self.phonebookTabLayout.addWidget(self.phonebookAddressEdit)
+        self.phonebookTabLayout.addWidget(self.phonebookUrlLabel)
+        self.phonebookTabLayout.addWidget(self.phonebookUrlEdit)
         self.phonebookTabLayout.addStretch()
         self.phonebookTab.setLayout(self.phonebookTabLayout)
 
@@ -339,6 +355,10 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookNameEdit.textChanged.connect(self.qrencode)
         self.phonebookTelEdit.textChanged.connect(self.qrencode)
         self.phonebookEMailEdit.textChanged.connect(self.qrencode)
+        self.phonebookNoteEdit.textChanged.connect(self.qrencode)
+        self.phonebookAddressEdit.textChanged.connect(self.qrencode)
+        self.phonebookBirthdayEdit.textChanged.connect(self.qrencode)
+        self.phonebookUrlEdit.textChanged.connect(self.qrencode)
         self.smsNumberEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(
@@ -376,7 +396,15 @@ class MainWindow(QtGui.QMainWindow):
             "email": unicode(self.emailEdit.text()),
             "emailmessage": ( unicode(self.emailEdit.text()), unicode(self.emailSubjectEdit.text()), unicode(self.emailBodyEdit.toPlainText()) ),
             "telephone": unicode(self.telephoneEdit.text()),
-            "phonebook": (unicode(self.phonebookNameEdit.text()), unicode(self.phonebookTelEdit.text()), unicode(self.phonebookEMailEdit.text()) ),
+            "phonebook": (('N',unicode(self.phonebookNameEdit.text())),
+                          ('TEL', unicode(self.phonebookTelEdit.text())),
+                          ('EMAIL',unicode(self.phonebookEMailEdit.text())),
+                          ('NOTE', unicode(self.phonebookNoteEdit.text())),
+                          ('BDAY', unicode(self.phonebookBirthdayEdit.text())), #YYYYMMDD
+                          ('ADR', unicode(self.phonebookAddressEdit.text())),  #The fields divided by commas (,) denote PO box, room number, house number, city, prefecture, zip code and country, in order.
+                          ('URL', unicode(self.phonebookUrlEdit.text())),
+                          # ('NICKNAME', ''),
+                        ),
             "sms": ( unicode(self.smsNumberEdit.text()), unicode(self.smsBodyEdit.toPlainText()) ),
             "mms": ( unicode(self.mmsNumberEdit.text()), unicode(self.mmsBodyEdit.toPlainText()) ),
             "geo": ( unicode(self.geoLatEdit.text()), unicode(self.geoLongEdit.text()) ),
@@ -485,7 +513,8 @@ class MainWindow(QtGui.QMainWindow):
             'email': lambda : unicode(self.trUtf8("QRCode contains the following e-mail address:\n\n%s")) % (data),
             'emailmessage': lambda : unicode(self.trUtf8("QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s")) % (data),
             'telephone': lambda : unicode(self.trUtf8("QRCode contains a telephone number: ")) + (data),
-            'phonebook': lambda : unicode(self.trUtf8("QRCode contains a phonebook entry:\n\nName: %s\nTel: %s\nE-Mail: %s")) % (data.get('N') or "", data.get('TEL') or "", data.get('EMAIL') or ""),
+            'phonebook': lambda : unicode(self.trUtf8("QRCode contains a phonebook entry:\n\nName: %s\nTel: %s\nE-Mail: %s\nNote: %s\nBirthday: %s\nAddress: %s\nURL: %s")) %
+             (data.get('N') or "", data.get('TEL') or "", data.get('EMAIL') or "", data.get('NOTE') or "", data.get('BDAY') or "", data.get('ADR') or "", data.get('URL') or ""),
             'sms': lambda : unicode(self.trUtf8("QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'mms': lambda : unicode(self.trUtf8("QRCode contains the following MMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'geo': lambda : unicode(self.trUtf8("QRCode contains the following coordinates:\n\nLatitude: %s\nLongitude:%s")) % (data),
@@ -577,6 +606,10 @@ class MainWindow(QtGui.QMainWindow):
                 self.phonebookNameEdit.setText(data.get("N") or "")
                 self.phonebookTelEdit.setText(data.get("TEL") or "")
                 self.phonebookEMailEdit.setText(data.get("EMAIL") or "")
+                self.phonebookNoteEdit.setText(data.get("NOTE") or "")
+                self.phonebookBirthdayEdit.setText(data.get("BDAY") or "")
+                self.phonebookAddressEdit.setText(data.get("ADR") or "")
+                self.phonebookUrlEdit.setText(data.get("URL") or "")
                 self.tabs.setCurrentIndex(tabIndex)
             elif qr.data_type == 'sms':
                 self.smsNumberEdit.setText(data[0])
