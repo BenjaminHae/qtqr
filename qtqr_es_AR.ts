@@ -69,7 +69,7 @@
         <translation>Título:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="104"/>
+        <location filename="qtqr.py" line="132"/>
         <source>URL:</source>
         <translation>URL:</translation>
     </message>
@@ -89,7 +89,7 @@
         <translation>Cuerpo del Mensaje:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="135"/>
+        <location filename="qtqr.py" line="143"/>
         <source>Telephone Number:</source>
         <translation>Número de Teléfono:</translation>
     </message>
@@ -109,154 +109,154 @@
         <translation>E-Mail:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="130"/>
+        <location filename="qtqr.py" line="138"/>
         <source>Message:</source>
         <translation>Mensaje:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="132"/>
+        <location filename="qtqr.py" line="140"/>
         <source>characters count: 0</source>
         <translation>Cantidad de caracteres: 0</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="137"/>
+        <location filename="qtqr.py" line="145"/>
         <source>Content:</source>
         <translation>Contenido:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="141"/>
+        <location filename="qtqr.py" line="149"/>
         <source>Latitude:</source>
         <translation>Latitud:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="143"/>
+        <location filename="qtqr.py" line="151"/>
         <source>Longitude:</source>
         <translation>Longitud:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="147"/>
+        <location filename="qtqr.py" line="155"/>
         <source>Parameters:</source>
         <translation>Parámetros:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="149"/>
+        <location filename="qtqr.py" line="157"/>
         <source>&amp;Pixel Size:</source>
         <translation>Tamaño de &amp;Píxel:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="152"/>
+        <location filename="qtqr.py" line="160"/>
         <source>&amp;Error Correction:</source>
         <translation>Corrección de &amp;Error:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="154"/>
+        <location filename="qtqr.py" line="162"/>
         <source>Lowest</source>
         <translation>Mínima</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="154"/>
+        <location filename="qtqr.py" line="162"/>
         <source>Medium</source>
         <translation>Medio</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="154"/>
+        <location filename="qtqr.py" line="162"/>
         <source>QuiteGood</source>
         <translation>Buena</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="154"/>
+        <location filename="qtqr.py" line="162"/>
         <source>Highest</source>
         <translation>Máxima</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="163"/>
+        <location filename="qtqr.py" line="171"/>
         <source>&amp;Margin Size:</source>
         <translation>Tamaño del &amp;Márgen:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="167"/>
+        <location filename="qtqr.py" line="175"/>
         <source>Start typing to create QR Code
  or  drop here image files for decoding.</source>
         <translation>Comenzá a escribir para generar el Código QR
 o soltá un archivo imagen con el código acá.</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="174"/>
+        <location filename="qtqr.py" line="182"/>
         <source>&amp;Save QRCode</source>
         <translation>&amp;Guardar Código QR</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="175"/>
+        <location filename="qtqr.py" line="183"/>
         <source>&amp;Decode</source>
         <translation>&amp;Decodificar</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="178"/>
+        <location filename="qtqr.py" line="186"/>
         <source>Decode from &amp;File</source>
         <translation>Decodificar desde &amp;Archivo</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="179"/>
+        <location filename="qtqr.py" line="187"/>
         <source>Decode from &amp;WebCam</source>
         <translation>Decodificar desde la &amp;Webcam</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="182"/>
+        <location filename="qtqr.py" line="190"/>
         <source>E&amp;xit</source>
         <translation>&amp;Salir</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="184"/>
+        <location filename="qtqr.py" line="192"/>
         <source>&amp;About</source>
         <translation>&amp;Acerca de</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="197"/>
+        <location filename="qtqr.py" line="205"/>
         <source>Error Correction Level</source>
         <translation>Nivel de Corrección de Erorres</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="313"/>
+        <location filename="qtqr.py" line="329"/>
         <source>Select data type:</source>
         <translation>Seleccioná el tipo de datos:</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="405"/>
+        <location filename="qtqr.py" line="433"/>
         <source>ERROR: Something went wrong while trying to generate de QR Code.</source>
         <translation>ERROR: Algo salió mal tratando de generar el código QR.</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="434"/>
+        <location filename="qtqr.py" line="462"/>
         <source>Save QRCode</source>
         <translation>Guardar Código QR</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="417"/>
+        <location filename="qtqr.py" line="445"/>
         <source>PNG Images (*.png);; All Files (*.*)</source>
         <translation>Imágenes PNG (*.png);;Todos los archivos (*.*)</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="427"/>
+        <location filename="qtqr.py" line="455"/>
         <source>Save QR Code</source>
         <translation>Guardar Código QR</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="442"/>
+        <location filename="qtqr.py" line="470"/>
         <source>Open QRCode</source>
         <translation>Abrir Código QR</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="442"/>
+        <location filename="qtqr.py" line="470"/>
         <source>Images (*.png *.jpg);; All Files (*.*)</source>
         <translation>Imágenes (*.png *.jpg);;Todos los Archivos (*.*)</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="453"/>
+        <location filename="qtqr.py" line="481"/>
         <source>Decode File</source>
         <translation>Decodificar archivo</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="488"/>
+        <location filename="qtqr.py" line="522"/>
         <source>
 
 Do you want to </source>
@@ -265,62 +265,62 @@ Do you want to </source>
 ¿Querés </translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="492"/>
+        <location filename="qtqr.py" line="526"/>
         <source>open it in a browser?</source>
         <translation>abrirlo en tu navegador?</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="493"/>
+        <location filename="qtqr.py" line="527"/>
         <source>send an e-mail to the address?</source>
         <translation>manda un e-mail a la dirección?</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="494"/>
+        <location filename="qtqr.py" line="528"/>
         <source>send the e-mail?</source>
         <translation>mandar el e-mail?</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="499"/>
+        <location filename="qtqr.py" line="533"/>
         <source>open it on Google Maps?</source>
         <translation>abrirlo en Google Maps?</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="514"/>
+        <location filename="qtqr.py" line="548"/>
         <source>Decode QRCode</source>
         <translation>Decodificar Código QR</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="521"/>
+        <location filename="qtqr.py" line="555"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="596"/>
+        <location filename="qtqr.py" line="634"/>
         <source>Decoding Failed</source>
         <translation>Falló la Decodificación</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="606"/>
+        <location filename="qtqr.py" line="644"/>
         <source>About QtQR</source>
         <translation>Acerca de QtQR</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="427"/>
+        <location filename="qtqr.py" line="455"/>
         <source>QR Code succesfully saved to %s</source>
         <translation>El código QR se guardó satisfactoriamente en %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="434"/>
+        <location filename="qtqr.py" line="462"/>
         <source>QRCode succesfully saved to &lt;b&gt;%s&lt;/b&gt;.</source>
         <translation>El código QR se guardó satisfactoriamente en &lt;b&gt;%s&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="453"/>
+        <location filename="qtqr.py" line="481"/>
         <source>No QRCode could be found in file: &lt;b&gt;%s&lt;/b&gt;.</source>
         <translation>No se pudo encontrar un código QR en el archivo &lt;b&gt;%s&lt;/b&gt;.</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="477"/>
+        <location filename="qtqr.py" line="510"/>
         <source>QRCode contains the following text:
 
 %s</source>
@@ -329,7 +329,7 @@ Do you want to </source>
 %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="478"/>
+        <location filename="qtqr.py" line="511"/>
         <source>QRCode contains the following url address:
 
 %s</source>
@@ -338,7 +338,7 @@ Do you want to </source>
 %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="479"/>
+        <location filename="qtqr.py" line="512"/>
         <source>QRCode contains a bookmark:
 
 Title: %s
@@ -349,7 +349,7 @@ Título: %s
 URL: %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="480"/>
+        <location filename="qtqr.py" line="513"/>
         <source>QRCode contains the following e-mail address:
 
 %s</source>
@@ -358,7 +358,7 @@ URL: %s</translation>
 %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="481"/>
+        <location filename="qtqr.py" line="514"/>
         <source>QRCode contains an e-mail message:
 
 To: %s
@@ -371,7 +371,7 @@ Asunto: %s
 Mensaje: %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="482"/>
+        <location filename="qtqr.py" line="515"/>
         <source>QRCode contains a telephone number: </source>
         <translation>El código QR contiene el siguiente número telefónico: </translation>
     </message>
@@ -382,14 +382,14 @@ Mensaje: %s</translation>
 Name: %s
 Tel: %s
 E-Mail: %s</source>
-        <translation>El código QR contiene el siguiente entrada de agenda:
+        <translation type="obsolete">El código QR contiene el siguiente entrada de agenda:
 
 Nombre: %s
 Teléfono: %s
 E-Mail: %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="484"/>
+        <location filename="qtqr.py" line="518"/>
         <source>QRCode contains the following SMS message:
 
 To: %s
@@ -400,7 +400,7 @@ Para: %s
 Mensaje: %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="485"/>
+        <location filename="qtqr.py" line="519"/>
         <source>QRCode contains the following MMS message:
 
 To: %s
@@ -411,7 +411,7 @@ Para: %s
 Mensaje: %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="486"/>
+        <location filename="qtqr.py" line="520"/>
         <source>QRCode contains the following coordinates:
 
 Latitude: %s
@@ -422,17 +422,17 @@ Latitud: %s
 Longitud: %s</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="344"/>
+        <location filename="qtqr.py" line="364"/>
         <source>characters count: %s - %d message(s)</source>
         <translation>cantidad de caracteres: %s - %d mensaje(s)</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="596"/>
+        <location filename="qtqr.py" line="634"/>
         <source>&lt;p&gt;Oops! no code was found.&lt;br /&gt; Maybe your webcam didn&apos;t focus.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Caray! no encontramos ningún código.&lt;br /&gt;Talvez la webcam no hizo foco.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="606"/>
+        <location filename="qtqr.py" line="644"/>
         <source>&lt;h1&gt;QtQR %s&lt;/h1&gt;&lt;p&gt;A simple software for creating and decoding QR Codes that uses &lt;a href=&quot;https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk&quot;&gt;python-qrtools&lt;/a&gt; as backend. Both are part of the &lt;a href=&quot;https://launchpad.net/qr-tools&quot;&gt;QR Tools&lt;/a&gt; project.&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;This is Free Software: GNU-GPLv3&lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;Please visit our website for more information and to check out the code:&lt;br /&gt;&lt;a href=&quot;https://launchpad.net/~qr-tools-developers/qtqr&quot;&gt;https://launchpad.net/~qr-tools-developers/qtqr&lt;/p&gt;&lt;p&gt;copyright &amp;copy; Ramiro Algozino &amp;lt;&lt;a href=&quot;mailto:algozino@gmail.com&quot;&gt;algozino@gmail.com&lt;/a&gt;&amp;gt;&lt;/p&gt;</source>
         <translation>&lt;h1&gt;QtQR %s&lt;/h1&gt;
 &lt;p&gt;Un simple software para crear y decodificar códigos QR que utiliza &lt;a href=&quot;https://code.launchpad.net/~qr-tools-developers/qr-tools/python-qrtools-trunk&quot;&gt;python-qrtools&lt;/a&gt; como backend. Ambos son parte del proyecto &lt;a href=&quot;https://launchpad.net/qr-tools&quot;&gt;QR Tools&lt;/a&gt; .&lt;/p&gt;
@@ -445,16 +445,52 @@ https://launchpad.net/~qr-tools-developers/qtqr&lt;/p&gt;
 &lt;p&gt;copyright &amp;copy; Ramiro Algozino 
 &amp;lt;&lt;a href=&quot;mailto:algozino@gmail.com&quot;&gt;algozino@gmail.com&lt;/a&gt;&amp;gt;&lt;/p&gt;</translation>
     </message>
+    <message>
+        <location filename="qtqr.py" line="126"/>
+        <source>Note:</source>
+        <translation>Notas:</translation>
+    </message>
+    <message>
+        <location filename="qtqr.py" line="128"/>
+        <source>Birthday:</source>
+        <translation>Fecha de Nacimiento:</translation>
+    </message>
+    <message>
+        <location filename="qtqr.py" line="130"/>
+        <source>Address:</source>
+        <translation>Dirección:</translation>
+    </message>
+    <message>
+        <location filename="qtqr.py" line="516"/>
+        <source>QRCode contains a phonebook entry:
+
+Name: %s
+Tel: %s
+E-Mail: %s
+Note: %s
+Birthday: %s
+Address: %s
+URL: %s</source>
+        <translation>El código QR contiene el siguiente entrada de agenda:
+
+Nombre: %s
+Teléfono: %s
+E-Mail: %s
+Notas: %s
+Fecha de Nacimiento: %s
+Dirección: %s
+URL: %s</translation>
+    </message>
 </context>
 <context>
     <name>VideoDevices</name>
     <message>
-        <location filename="qtqr.py" line="630"/>
+        <location filename="qtqr.py" line="668"/>
         <source>Decode from Webcam</source>
         <translation>Decodificar desde la Webcam</translation>
     </message>
     <message>
-        <location filename="qtqr.py" line="636"/>
+        <location filename="qtqr.py" line="674"/>
         <source>You are about to decode from your webcam. Please put the code in front of your camera with a good light source and keep it steady.
 Once you see a green rectangle you can close the window by pressing any key.
 
