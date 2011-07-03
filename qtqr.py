@@ -126,9 +126,11 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookNoteLabel = QtGui.QLabel(self.trUtf8("Note:"))
         self.phonebookNoteEdit = QtGui.QLineEdit()
         self.phonebookBirthdayLabel = QtGui.QLabel(self.trUtf8("Birthday:"))
-        self.phonebookBirthdayEdit = QtGui.QLineEdit()
+        self.phonebookBirthdayEdit = QtGui.QDateEdit()
+        self.phonebookBirthdayEdit.setCalendarPopup(True)
         self.phonebookAddressLabel = QtGui.QLabel(self.trUtf8("Address:"))
         self.phonebookAddressEdit =  QtGui.QLineEdit()
+        self.phonebookAddressEdit.setToolTip(self.trUtf8("Insert separated by commas the PO Box, room number, house number, city, prefecture, zip code and country in order"))
         self.phonebookUrlLabel = QtGui.QLabel(self.trUtf8("URL:"))
         self.phonebookUrlEdit =  QtGui.QLineEdit()
 
@@ -357,7 +359,7 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookEMailEdit.textChanged.connect(self.qrencode)
         self.phonebookNoteEdit.textChanged.connect(self.qrencode)
         self.phonebookAddressEdit.textChanged.connect(self.qrencode)
-        self.phonebookBirthdayEdit.textChanged.connect(self.qrencode)
+        self.phonebookBirthdayEdit.dateChanged.connect(self.qrencode)
         self.phonebookUrlEdit.textChanged.connect(self.qrencode)
         self.smsNumberEdit.textChanged.connect(self.qrencode)
         self.smsBodyEdit.textChanged.connect(self.qrencode)
@@ -400,7 +402,7 @@ class MainWindow(QtGui.QMainWindow):
                           ('TEL', unicode(self.phonebookTelEdit.text())),
                           ('EMAIL',unicode(self.phonebookEMailEdit.text())),
                           ('NOTE', unicode(self.phonebookNoteEdit.text())),
-                          ('BDAY', unicode(self.phonebookBirthdayEdit.text())), #YYYYMMDD
+                          ('BDAY', unicode(self.phonebookBirthdayEdit.date().toString("yyyyMMdd"))), #YYYYMMDD
                           ('ADR', unicode(self.phonebookAddressEdit.text())),  #The fields divided by commas (,) denote PO box, room number, house number, city, prefecture, zip code and country, in order.
                           ('URL', unicode(self.phonebookUrlEdit.text())),
                           # ('NICKNAME', ''),
@@ -514,7 +516,13 @@ class MainWindow(QtGui.QMainWindow):
             'emailmessage': lambda : unicode(self.trUtf8("QRCode contains an e-mail message:\n\nTo: %s\nSubject: %s\nMessage: %s")) % (data),
             'telephone': lambda : unicode(self.trUtf8("QRCode contains a telephone number: ")) + (data),
             'phonebook': lambda : unicode(self.trUtf8("QRCode contains a phonebook entry:\n\nName: %s\nTel: %s\nE-Mail: %s\nNote: %s\nBirthday: %s\nAddress: %s\nURL: %s")) %
-             (data.get('N') or "", data.get('TEL') or "", data.get('EMAIL') or "", data.get('NOTE') or "", data.get('BDAY') or "", data.get('ADR') or "", data.get('URL') or ""),
+                (data.get('N') or "", 
+                 data.get('TEL') or "", 
+                 data.get('EMAIL') or "", 
+                 data.get('NOTE') or "",
+                 QtCore.QDate.fromString(data.get('BDAY') or "",'yyyyMMdd').toString(), 
+                 data.get('ADR') or "",
+                 data.get('URL') or ""),
             'sms': lambda : unicode(self.trUtf8("QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'mms': lambda : unicode(self.trUtf8("QRCode contains the following MMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'geo': lambda : unicode(self.trUtf8("QRCode contains the following coordinates:\n\nLatitude: %s\nLongitude:%s")) % (data),
@@ -607,7 +615,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.phonebookTelEdit.setText(data.get("TEL") or "")
                 self.phonebookEMailEdit.setText(data.get("EMAIL") or "")
                 self.phonebookNoteEdit.setText(data.get("NOTE") or "")
-                self.phonebookBirthdayEdit.setText(data.get("BDAY") or "")
+                self.phonebookBirthdayEdit.setDate(QtCore.QDate.fromString(data.get("BDAY") or "", "yyyyMMdd"))
                 self.phonebookAddressEdit.setText(data.get("ADR") or "")
                 self.phonebookUrlEdit.setText(data.get("URL") or "")
                 self.tabs.setCurrentIndex(tabIndex)
