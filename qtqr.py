@@ -718,9 +718,13 @@ if __name__ == '__main__':
     # in your system's language. 
     locale = unicode(QtCore.QLocale.system().name())
     translator=QtCore.QTranslator()
-    translator.load(os.path.join(os.path.abspath(
-        os.path.dirname(__file__)),
-        "qtqr_" + locale))
+    # translator.load(os.path.join(os.path.abspath(
+        # os.path.dirname(__file__)),
+        # "qtqr_" + locale))
+    translator.load("qtqr_" + locale,
+                    QtCore.QLibraryInfo.location(
+                    QtCore.QLibraryInfo.TranslationsPath)
+                    )
     app.installTranslator(translator)    
     qtTranslator=QtCore.QTranslator()
     qtTranslator.load("qt_" + locale,
