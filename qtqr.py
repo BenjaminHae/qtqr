@@ -721,6 +721,7 @@ if __name__ == '__main__':
     # translator.load(os.path.join(os.path.abspath(
         # os.path.dirname(__file__)),
         # "qtqr_" + locale))
+    # We load from standard location the translations
     translator.load("qtqr_" + locale,
                     QtCore.QLibraryInfo.location(
                     QtCore.QLibraryInfo.TranslationsPath)
