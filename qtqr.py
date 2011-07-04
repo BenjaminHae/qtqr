@@ -739,5 +739,6 @@ if __name__ == '__main__':
     if len(app.argv())>1:
         #Open the file and try to decode it
         for fn in app.argv()[1:]:
+            # We should check if the file exists.
             mw.decodeFile(fn)
     sys.exit(app.exec_())
