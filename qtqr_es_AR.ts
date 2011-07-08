@@ -197,7 +197,7 @@ o soltá un archivo imagen con el código acá.</translation>
     </message>
     <message>
         <location filename="qtqr.py" line="189"/>
-        <source>Decode from &amp;WebCam</source>
+        <source>Decode from &amp;Webcam</source>
         <translation>Decodificar desde la &amp;Webcam</translation>
     </message>
     <message>
@@ -222,7 +222,7 @@ o soltá un archivo imagen con el código acá.</translation>
     </message>
     <message>
         <location filename="qtqr.py" line="435"/>
-        <source>ERROR: Something went wrong while trying to generate de QR Code.</source>
+        <source>ERROR: Something went wrong while trying to generate the QR Code.</source>
         <translation>ERROR: Algo salió mal tratando de generar el código QR.</translation>
     </message>
     <message>
@@ -281,7 +281,7 @@ Do you want to </source>
     </message>
     <message>
         <location filename="qtqr.py" line="541"/>
-        <source>open it on Google Maps?</source>
+        <source>open it in Google Maps?</source>
         <translation>abrirlo en Google Maps?</translation>
     </message>
     <message>

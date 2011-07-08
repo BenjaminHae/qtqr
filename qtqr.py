@@ -187,7 +187,7 @@ class MainWindow(QtGui.QMainWindow):
 
         self.decodeMenu = QtGui.QMenu()
         self.decodeFileAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'document-open'), self.trUtf8('Decode from &File'))
-        self.decodeWebcamAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'image-png'), self.trUtf8('Decode from &WebCam'))
+        self.decodeWebcamAction = self.decodeMenu.addAction(QtGui.QIcon.fromTheme(u'image-png'), self.trUtf8('Decode from &Webcam'))
         self.decodeButton.setMenu(self.decodeMenu)
 
         self.exitAction = QtGui.QAction(QtGui.QIcon.fromTheme(u'application-exit'), self.trUtf8('E&xit'), self)
@@ -435,7 +435,7 @@ class MainWindow(QtGui.QMainWindow):
                 if NOTIFY:
                     n = pynotify.Notification(
                         "QtQR",
-                        unicode(self.trUtf8("ERROR: Something went wrong while trying to generate de QR Code.")),
+                        unicode(self.trUtf8("ERROR: Something went wrong while trying to generate the QR Code.")),
                         "qtqr"
                         )
                     n.show()
@@ -539,7 +539,7 @@ class MainWindow(QtGui.QMainWindow):
             'phonebook': u"",
             'sms': u"",
             'mms': u"",
-            'geo': wanna + self.trUtf8("open it on Google Maps?"),
+            'geo': wanna + self.trUtf8("open it in Google Maps?"),
         }
         if action[qr.data_type] != u"":
             msgBox = QtGui.QMessageBox(
