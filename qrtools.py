@@ -111,7 +111,8 @@ class QR(object):
         """Returns a UTF8 string with the QR Code's data"""
         # FIX-ME: if we don't add the BOM_UTF8 char, QtQR doesn't decode 
         # correctly; but if we add it, mobile apps don't.- 
-        # Apparently is a zbar bug.
+        # /Apparently/ Confirmed that is a zbar bug.
+        # See: https://bugs.launchpad.net/qr-tools/+bug/796387
         if self.data_type == 'text':
             return BOM_UTF8 + self.__class__.data_encode[self.data_type](self.data).encode('utf-8')
         else:
