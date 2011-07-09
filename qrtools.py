@@ -59,8 +59,6 @@ class QR(object):
         'mms' : lambda data : 'MMSTO:' + data[0] + ':' + data[1],
         'geo' : lambda data : 'geo:' + data[0] + ',' + data[1],
         'bookmark': lambda data : "MEBKM:TITLE:" + data[0] + ";URL:" + data[1] + ";;",
-        # Old encode function 
-        # 'phonebook': lambda data: "MECARD:N:" + data[0] + ";TEL:" + data[1] + ";EMAIL:" + data[2] + ";;",
         # phonebook or meCard should be a list of tuples like this:
         # [('N','Name'),('TEL', '231698890'), ...]
         'phonebook': lambda data: "MECARD:" + ";".join([":".join(i) for i in data]) + ";"
