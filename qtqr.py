@@ -126,7 +126,7 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookEMailEdit = QtGui.QLineEdit()
         self.phonebookNoteLabel = QtGui.QLabel(self.trUtf8("Note:"))
         self.phonebookNoteEdit = QtGui.QLineEdit()
-        self.phonebookBirthdayLabel = QtGui.QLabel(self.trUtf8("Birthday:"))
+        self.phonebookBirthdayLabel = QtGui.QCheckBox(self.trUtf8("Birthday:"))
         self.phonebookBirthdayEdit = QtGui.QDateEdit()
         self.phonebookBirthdayEdit.setCalendarPopup(True)
         self.phonebookAddressLabel = QtGui.QLabel(self.trUtf8("Address:"))
@@ -360,6 +360,7 @@ class MainWindow(QtGui.QMainWindow):
         self.phonebookEMailEdit.textChanged.connect(self.qrencode)
         self.phonebookNoteEdit.textChanged.connect(self.qrencode)
         self.phonebookAddressEdit.textChanged.connect(self.qrencode)
+        self.phonebookBirthdayLabel.stateChanged.connect(self.qrencode)
         self.phonebookBirthdayEdit.dateChanged.connect(self.qrencode)
         self.phonebookUrlEdit.textChanged.connect(self.qrencode)
         self.smsNumberEdit.textChanged.connect(self.qrencode)
@@ -403,7 +404,7 @@ class MainWindow(QtGui.QMainWindow):
                           ('TEL', unicode(self.phonebookTelEdit.text())),
                           ('EMAIL',unicode(self.phonebookEMailEdit.text())),
                           ('NOTE', unicode(self.phonebookNoteEdit.text())),
-                          ('BDAY', unicode(self.phonebookBirthdayEdit.date().toString("yyyyMMdd"))), #YYYYMMDD
+                          ('BDAY', unicode(self.phonebookBirthdayEdit.date().toString("yyyyMMdd")) if self.phonebookBirthdayLabel.isChecked() else ""), #YYYYMMDD
                           ('ADR', unicode(self.phonebookAddressEdit.text())),  #The fields divided by commas (,) denote PO box, room number, house number, city, prefecture, zip code and country, in order.
                           ('URL', unicode(self.phonebookUrlEdit.text())),
                           # ('NICKNAME', ''),
