@@ -11,7 +11,7 @@ uses python-zbar for decoding from files and webcam
 
 import sys, os
 from math import ceil
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore, QtGui, QtNetwork
 from qrtools import QR
 try:
     import pynotify
@@ -390,6 +390,11 @@ class MainWindow(QtGui.QMainWindow):
         self.qrcode.setAcceptDrops(True)
         self.qrcode.__class__.dragEnterEvent = self.dragEnterEvent
         self.qrcode.__class__.dropEvent = self.dropEvent
+        
+        # Network acces for remote images drag&drop support
+        self.NetAccessMgr = QtNetwork.QNetworkAccessManager()
+        self.NetAccessMgr.finished.connect(self.handleNetworkData)
+
 
     def qrencode(self):
         #Functions to get the correct data
@@ -662,9 +667,22 @@ class MainWindow(QtGui.QMainWindow):
             event.acceptProposedAction()
 
     def dropEvent(self, event):
-        for fn in event.mimeData().urls():
-            fn = fn.toLocalFile()
-            self.decodeFile(unicode(fn))
+        for url in event.mimeData().urls():
+            fn = url.toLocalFile()
+            if fn:
+                self.decodeFile(unicode(fn))
+            else:
+                print "DEBUG: Downloading dropped file from %s" % url.toString() 
+                self.NetAccessMgr.get(QtNetwork.QNetworkRequest(url))
+
+    def handleNetworkData(self, QNetReply):
+        print "DEBUG: Finished downloading file."
+        # print QNetReply.url()
+        tmpfn = '/tmp/qrtemp.png'
+        fn = open(tmpfn,"w")
+        fn.write(QNetReply.readAll())
+        fn.close()
+        self.decodeFile(tmpfn)
 
 
 class VideoDevices(QtGui.QDialog):
