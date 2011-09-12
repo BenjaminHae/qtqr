@@ -674,10 +674,12 @@ class MainWindow(QtGui.QMainWindow):
             else:
                 print "DEBUG: Downloading dropped file from %s" % url.toString() 
                 self.NetAccessMgr.get(QtNetwork.QNetworkRequest(url))
+                # FIX-ME: We should check if the download gets timeout.
+                # and notify that we are downloading, the download could
+                # take some seconds to complete.  
 
     def handleNetworkData(self, QNetReply):
         print "DEBUG: Finished downloading file."
-        # print QNetReply.url()
         tmpfn = '/tmp/qrtemp.png'
         fn = open(tmpfn,"w")
         fn.write(QNetReply.readAll())
