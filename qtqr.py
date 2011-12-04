@@ -14,7 +14,7 @@ from math import ceil
 from PyQt4 import QtCore, QtGui, QtNetwork
 from qrtools import QR
 try:
-    import pynotify
+    # import pynotify
     if not pynotify.init("QtQR"):
         print "DEBUG: There was a problem initializing the pynotify module"
     NOTIFY = True
@@ -26,7 +26,7 @@ __email__ = "algozino@gmail.com"
 __copyright__ = "copyright (C) 2011 Ramiro Algozino"
 __credits__ = "David Green"
 __license__ = "GPLv3"
-__version__ = "1.2"
+__version__ = "1.3"
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
