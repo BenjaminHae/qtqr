@@ -447,6 +447,7 @@ class MainWindow(QtGui.QMainWindow):
                     n.show()
                 else:
                     print "Something went worng while trying to generate the QR Code"
+            qr.destroy()
         else:
             self.saveButton.setEnabled(False)
 
@@ -492,6 +493,7 @@ class MainWindow(QtGui.QMainWindow):
                     self.trUtf8('Decode File'),
                     unicode(self.trUtf8('No QRCode could be found in file: <b>%s</b>.')) % fn
                 )
+            qr.destroy()
 #        else:
 #            QtGui.QMessageBox.information(
 #                self,
@@ -654,6 +656,7 @@ class MainWindow(QtGui.QMainWindow):
                 )
             else:
                 self.showInfo(qr)
+            qr.destroy()
 
     def about(self):
         QtGui.QMessageBox.about(
