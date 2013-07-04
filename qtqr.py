@@ -724,17 +724,18 @@ class VideoDevices(QtGui.QDialog):
         
 
     def getVideoDevices(self):
-        for dev in os.listdir("/dev/v4l/by-id"):
-            try:
-                yield([
-                    " ".join(dev.split("-")[1].split("_")), 
-                    os.path.join("/dev/v4l/by-id", dev)
-                ])
-            except:
-                yield([
-                    dev, 
-                    os.path.join("/dev/v4l/by-id", dev)
-                ])
+        if os.path.exists("/dev/v4l/by-id"):
+            for dev in os.listdir("/dev/v4l/by-id"):
+                try:
+                    yield([
+                        " ".join(dev.split("-")[1].split("_")), 
+                        os.path.join("/dev/v4l/by-id", dev)
+                    ])
+                except:
+                    yield([
+                        dev, 
+                        os.path.join("/dev/v4l/by-id", dev)
+                    ])
 
 
 if __name__ == '__main__':
