@@ -52,6 +52,7 @@ class MainWindow(QtGui.QMainWindow):
             "sms": unicode(self.trUtf8("SMS")),
             "mms": unicode(self.trUtf8("MMS")),
             "geo": unicode(self.trUtf8("Geolocalization")),
+            "wifi": unicode(self.trUtf8("WiFi Network")),
             }
         # With this we make the dict bidirectional
         self.templates.update( dict((self.templates[k], k) for k in self.templates))
@@ -68,6 +69,7 @@ class MainWindow(QtGui.QMainWindow):
             self.templates["sms"],
             self.templates["mms"],
             self.templates["geo"],
+            self.templates["wifi"],
             )
         self.selector = QtGui.QComboBox()
         self.selector.addItems(self.templateNames)
@@ -81,6 +83,7 @@ class MainWindow(QtGui.QMainWindow):
         self.smsTab = QtGui.QWidget()
         self.mmsTab = QtGui.QWidget()
         self.geoTab = QtGui.QWidget()
+        self.wifiTab = QtGui.QWidget()
         self.tabs.addWidget(self.textTab)
         self.tabs.addWidget(self.urlTab)
         self.tabs.addWidget(self.bookmarkTab)
@@ -90,6 +93,7 @@ class MainWindow(QtGui.QMainWindow):
         self.tabs.addWidget(self.smsTab)
         self.tabs.addWidget(self.mmsTab)
         self.tabs.addWidget(self.geoTab)
+        self.tabs.addWidget(self.wifiTab)
 
         #Widgets for Text Tab
         self.l1 = QtGui.QLabel(self.trUtf8('Text to be encoded:'))
@@ -153,6 +157,22 @@ class MainWindow(QtGui.QMainWindow):
         self.geoLatEdit = QtGui.QLineEdit()
         self.geoLongLabel = QtGui.QLabel(self.trUtf8("Longitude:"))
         self.geoLongEdit = QtGui.QLineEdit()
+
+        #Widgets for WiFi Tab
+        self.wifiSSIDLabel = QtGui.QLabel(self.trUtf8("SSID:"))
+        self.wifiSSIDEdit = QtGui.QLineEdit()
+        self.wifiPasswordLabel = QtGui.QLabel(self.trUtf8("Password:"))
+        self.wifiPasswordEdit = QtGui.QLineEdit()
+        self.wifiEncriptionLabel = QtGui.QLabel(self.trUtf8("Encription:"))
+        self.wifiEncriptionType = QtGui.QComboBox()
+        self.wifiEncriptionType.addItems(
+                (
+                self.trUtf8('WEP'),
+                self.trUtf8('WPA/WPA2'),
+                self.trUtf8('No Encription'),
+                )
+            )
+        
 
         #Widgets for QREncode Parameters Configuration
         self.optionsGroup = QtGui.QGroupBox(self.trUtf8('Parameters:'))
@@ -303,6 +323,17 @@ class MainWindow(QtGui.QMainWindow):
         self.geoTabLayout.addStretch()
         self.geoTab.setLayout(self.geoTabLayout)
 
+        #WiFi Network Tab
+        self.wifiTabLayout = QtGui.QVBoxLayout()
+        self.wifiTabLayout.addWidget(self.wifiSSIDLabel)
+        self.wifiTabLayout.addWidget(self.wifiSSIDEdit)
+        self.wifiTabLayout.addWidget(self.wifiPasswordLabel)
+        self.wifiTabLayout.addWidget(self.wifiPasswordEdit)
+        self.wifiTabLayout.addWidget(self.wifiEncriptionLabel)
+        self.wifiTabLayout.addWidget(self.wifiEncriptionType)
+        self.wifiTabLayout.addStretch()
+        self.wifiTab.setLayout(self.wifiTabLayout)
+
         #Pixel Size Controls
         self.pixControls = QtGui.QVBoxLayout()
         self.pixControls.addWidget(self.l2)
@@ -378,6 +409,9 @@ class MainWindow(QtGui.QMainWindow):
         self.telephoneEdit.textChanged.connect(self.qrencode)
         self.geoLatEdit.textChanged.connect(self.qrencode)
         self.geoLongEdit.textChanged.connect(self.qrencode)
+        self.wifiSSIDEdit.textChanged.connect(self.qrencode)
+        self.wifiPasswordEdit.textChanged.connect(self.qrencode)
+        self.wifiEncriptionType.currentIndexChanged.connect(self.qrencode)
         self.pixelSize.valueChanged.connect(self.qrencode)
         self.ecLevel.currentIndexChanged.connect(self.qrencode)
         self.marginSize.valueChanged.connect(self.qrencode)
@@ -417,6 +451,7 @@ class MainWindow(QtGui.QMainWindow):
             "sms": ( unicode(self.smsNumberEdit.text()), unicode(self.smsBodyEdit.toPlainText()) ),
             "mms": ( unicode(self.mmsNumberEdit.text()), unicode(self.mmsBodyEdit.toPlainText()) ),
             "geo": ( unicode(self.geoLatEdit.text()), unicode(self.geoLongEdit.text()) ),
+            "wifi": ( unicode(self.wifiSSIDEdit.text()), (u"WEP",u"WPA",u"nopass")[self.wifiEncriptionType.currentIndex()], unicode(self.wifiPasswordEdit.text()))
         }
 
         data_type = unicode(self.templates[unicode(self.selector.currentText())])
@@ -535,6 +570,7 @@ class MainWindow(QtGui.QMainWindow):
             'sms': lambda : unicode(self.trUtf8("QRCode contains the following SMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'mms': lambda : unicode(self.trUtf8("QRCode contains the following MMS message:\n\nTo: %s\nMessage: %s")) % (data),
             'geo': lambda : unicode(self.trUtf8("QRCode contains the following coordinates:\n\nLatitude: %s\nLongitude:%s")) % (data),
+            'wifi': lambda : unicode(self.trUtf8("QRCode contains the following WiFi Network Configuration:\n\nSSID: %s\nEncription Type: %s\nPassword: %s")) % (data)
         }
         wanna = self.trUtf8("\n\nDo you want to ")
         action = {
@@ -548,6 +584,7 @@ class MainWindow(QtGui.QMainWindow):
             'sms': u"",
             'mms': u"",
             'geo': wanna + self.trUtf8("open it in Google Maps?"),
+            'wifi': u""
         }
         if action[qr.data_type] != u"":
             msgBox = QtGui.QMessageBox(
@@ -639,6 +676,11 @@ class MainWindow(QtGui.QMainWindow):
             elif qr.data_type == 'geo':
                 self.geoLatEdit.setText(data[0])
                 self.geoLongEdit.setText(data[1])
+                self.tabs.setCurrentIndex(tabIndex)
+            elif qr.data_type == 'wifi':
+                self.wifiSSIDEdit.setText(data[0] or "")
+                self.wifiEncriptionType.setCurrentIndex({u"WEP":0,u"WPA":1,u"nopass":2}.get(data[1]) or 0)
+                self.wifiPasswordEdit.setText(data[2] or "")
                 self.tabs.setCurrentIndex(tabIndex)
 
     def decodeWebcam(self):

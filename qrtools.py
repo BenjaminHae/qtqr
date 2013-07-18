@@ -61,7 +61,8 @@ class QR(object):
         'bookmark': lambda data : "MEBKM:TITLE:" + data[0] + ";URL:" + data[1] + ";;",
         # phonebook or meCard should be a list of tuples like this:
         # [('N','Name'),('TEL', '231698890'), ...]
-        'phonebook': lambda data: "MECARD:" + ";".join([":".join(i) for i in data]) + ";"
+        'phonebook': lambda data: "MECARD:" + ";".join([":".join(i) for i in data]) + ";",
+        'wifi': lambda data: "WIFI:S:" + data[0] + ";T:" + data[1] + ";P:" + data[2] +";;",
     }
 
     data_decode = {
@@ -74,7 +75,8 @@ class QR(object):
         'mms': lambda data: re.findall(u"MMSTO:(.*):(.*)", data, re.IGNORECASE)[0],
         'geo': lambda data: re.findall(u"GEO:(.*),(.*)", data, re.IGNORECASE)[0],
         'bookmark': lambda data: re.findall(u"MEBKM:TITLE:(.*);URL:(.*);;", data, re.IGNORECASE)[0],
-        'phonebook': lambda data: dict(re.findall("(.*?):(.*?);", data.replace("MECARD:",""), re.IGNORECASE))
+        'phonebook': lambda data: dict(re.findall("(.*?):(.*?);", data.replace("MECARD:",""), re.IGNORECASE)),
+        'wifi' : lambda data: re.findall(u"WIFI:S:(.*);T:(.*);P:(.*);;", data, re.IGNORECASE)[0],
     }
 
     def data_recognise(self, data = None):
@@ -90,6 +92,7 @@ class QR(object):
         elif data_lower.startswith(u"geo:"): return u'geo'
         elif data_lower.startswith(u"mebkm:title:"): return u'bookmark'
         elif data_lower.startswith(u"mecard:"): return u'phonebook'
+        elif data_lower.startswith(u"wifi:"): return u'wifi'
         else: return u'text'
 
     def __init__(
