@@ -430,7 +430,7 @@ class MainWindow(QtGui.QMainWindow):
         self.NetAccessMgr.finished.connect(self.handleNetworkData)
 
 
-    def qrencode(self):
+    def qrencode(self, fileName=None):
         #Functions to get the correct data
         data_fields = {
             "text": unicode(self.textEdit.toPlainText()),
@@ -469,7 +469,12 @@ class MainWindow(QtGui.QMainWindow):
                     margin_size = unicode(self.marginSize.value()),
                     data_type = data_type,
                     )
-            if qr.encode() == 0:
+            error = 1
+            if type(fileName) is not unicode:
+                error = qr.encode()
+            else:
+                error = qr.encode(fileName)
+            if error == 0:
                 self.qrcode.setPixmap(QtGui.QPixmap(qr.filename))
                 self.saveButton.setEnabled(True)
             else:
@@ -481,21 +486,33 @@ class MainWindow(QtGui.QMainWindow):
                         )
                     n.show()
                 else:
-                    print "Something went worng while trying to generate the QR Code"
+                    print "Something went wrong while trying to generate the QR Code"
             qr.destroy()
         else:
             self.saveButton.setEnabled(False)
 
     def saveCode(self):
+        filterStr = ""
+        for saveType in QR().get_qrencode_types():
+            filterStr += ( saveType + "(*." + saveType.lower() + ");;")
+        #print filterStr
         fn = QtGui.QFileDialog.getSaveFileName(
             self,
             self.trUtf8('Save QRCode'), 
-            filter=self.trUtf8('PNG Images (*.png);; All Files (*.*)')
+            filter=filterStr
             )
         if fn:
-            if not fn.toLower().endsWith(u".png"):
+            if not fn.toLower().endsWith(u".png") \
+            and not fn.toLower().endsWith(u".eps") \
+            and not fn.toLower().endsWith(u".svg") \
+            and not fn.toLower().endsWith(u".ansi") \
+            and not fn.toLower().endsWith(u".ansi256") \
+            and not fn.toLower().endsWith(u".ascii") \
+            and not fn.toLower().endsWith(u".asciii") \
+            and not fn.toLower().endsWith(u".utf8") \
+            and not fn.toLower().endsWith(u".ansiutf8"):
                 fn += u".png"
-            self.qrcode.pixmap().save(fn)
+            self.qrencode(unicode(fn))
             if NOTIFY:
                 n = pynotify.Notification(
                     unicode(self.trUtf8("Save QR Code")),

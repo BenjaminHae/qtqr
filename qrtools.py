@@ -109,6 +109,8 @@ class QR(object):
         self.directory = os.path.join('/tmp', 'qr-%f' % time.time())
         self.filename = filename
         os.makedirs(self.directory)
+        self.qrencode_version = self.get_qrencode_version()
+        self.qrencode_types = self.get_qrencode_types()
 
     def data_to_string(self):
         """Returns a UTF8 string with the QR Code's data"""
@@ -130,16 +132,39 @@ class QR(object):
 
     def encode(self, filename=None):
         self.filename = filename or self.get_tmp_file()
-        if not self.filename.endswith('.png'):
+        ext = os.path.splitext(self.filename)[1].replace('.', '').upper()
+        if  ext != 'PNG' \
+        and ext != 'EPS' \
+        and ext != 'SVG' \
+        and ext != 'ANSI' \
+        and ext != 'ANSI256' \
+        and ext != 'ASCII' \
+        and ext != 'ASCIII' \
+        and ext != 'UTF8' \
+        and ext != 'ANSIUTF8':
             self.filename += '.png'
-        return subprocess.Popen([
-            'qrencode',
-            '-o', self.filename,
-            '-s', unicode(self.pixel_size),
-            '-m', unicode(self.margin_size),
-            '-l', self.level,
-            self.data_to_string()
-        ]).wait()
+            ext = 'PNG'
+        if self.qrencode_version > '3.1.1':
+            command = [
+                'qrencode',
+                '-o', self.filename,
+                '-s', unicode(self.pixel_size),
+                '-m', unicode(self.margin_size),
+                '-l', self.level,
+                '-t', ext,
+                self.data_to_string()
+            ]
+        else:
+            command = [
+                'qrencode',
+                '-o', self.filename,
+                '-s', unicode(self.pixel_size),
+                '-m', unicode(self.margin_size),
+                '-l', self.level,
+                #'-t', ext,
+                self.data_to_string()
+            ]
+        return subprocess.Popen(command).wait()
 
     def decode(self, filename=None):
         self.filename = filename or self.filename
@@ -203,3 +228,28 @@ class QR(object):
 
     def destroy(self):
         shutil.rmtree(self.directory)
+
+    def get_qrencode_version(self):
+        #Somehow qerencode writes this to stderr instead of stdout :-/
+        #FIXME: Probably a future bug in newer versions.
+        p = subprocess.Popen(['qrencode','-V'], stderr=subprocess.PIPE)
+        version_text = p.communicate()[1]
+        version = re.search('version\s([\d.]*)',version_text) 
+        if version:
+            version_number = version.group(1)
+        else:
+            version_number = -1
+        #print "Using qrencode version:", version_number
+        return version_number
+
+    def get_qrencode_types(self):
+        p = subprocess.Popen(['qrencode','-h'], stderr=subprocess.PIPE)
+        help_text = p.communicate()[1]
+        types_text = re.search('-t {([\w,]*)}', help_text) 
+        if types_text:
+            types = types_text.group(1).split(',')
+            #print "The following format types have been found!:", types
+        else:
+            types = ['png']
+            #print "Help text for format types not found. Using:", types
+        return types
