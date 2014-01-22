@@ -26,7 +26,7 @@ __email__ = "algozino@gmail.com"
 __copyright__ = "copyright (C) 2011 Ramiro Algozino"
 __credits__ = "David Green"
 __license__ = "GPLv3"
-__version__ = "1.3"
+__version__ = "1.4"
 
 class MainWindow(QtGui.QMainWindow):
     def __init__(self):
