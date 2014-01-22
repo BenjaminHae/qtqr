@@ -235,7 +235,7 @@ class QR(object):
     def get_qrencode_version(self):
         #Somehow qerencode writes this to stderr instead of stdout :-/
         #FIXME: Probably a future bug in newer versions.
-        p = subprocess.Popen(['qrencode','-V'], stderr=subprocess.PIPE)
+        p = subprocess.Popen(['qrencode','-V'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         version_text = p.communicate()[1]
         version = re.search('version\s([\d.]*)',version_text) 
         if version:
@@ -246,7 +246,7 @@ class QR(object):
         return version_number
 
     def get_qrencode_types(self):
-        p = subprocess.Popen(['qrencode','-h'], stderr=subprocess.PIPE)
+        p = subprocess.Popen(['qrencode','-h'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         help_text = p.communicate()[1]
         types_text = re.search('-t {([\w,]*)}', help_text) 
         if types_text:
