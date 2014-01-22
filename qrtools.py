@@ -26,7 +26,10 @@ import time
 import shutil
 import hashlib
 import zbar
-import Image
+try:
+    from PIL import Image
+except ImportError:
+    import Image
 import re
 from codecs import BOM_UTF8
 
