@@ -703,19 +703,20 @@ class MainWindow(QtGui.QMainWindow):
     def decodeWebcam(self):
         vdDialog = VideoDevices()
         if vdDialog.exec_():
-            device = vdDialog.videoDevices[vdDialog.videoDevice.currentIndex()][1]
-            qr = QR()
-            qr.decode_webcam(device=device)
-            if qr.data_decode[qr.data_type](qr.data) == 'NULL':
-                QtGui.QMessageBox.warning(
-                    self,
-                    self.trUtf8("Decoding Failed"),
-                    self.trUtf8("<p>Oops! no code was found.<br /> Maybe your webcam didn't focus.</p>"),
-                    QtGui.QMessageBox.Ok
-                )
-            else:
-                self.showInfo(qr)
-            qr.destroy()
+            if len(vdDialog.videoDevices) > 0:
+                device = vdDialog.videoDevices[vdDialog.videoDevice.currentIndex()][1]
+                qr = QR()
+                qr.decode_webcam(device=device)
+                if qr.data_decode[qr.data_type](qr.data) == 'NULL':
+                    QtGui.QMessageBox.warning(
+                        self,
+                        self.trUtf8("Decoding Failed"),
+                        self.trUtf8("<p>Oops! no code was found.<br /> Maybe your webcam didn't focus.</p>"),
+                        QtGui.QMessageBox.Ok
+                    )
+                else:
+                    self.showInfo(qr)
+                qr.destroy()
 
     def about(self):
         QtGui.QMessageBox.about(
@@ -756,7 +757,6 @@ class VideoDevices(QtGui.QDialog):
         self.videoDevices = []
         for vd in self.getVideoDevices():
             self.videoDevices.append(vd)
-
         self.setWindowTitle(self.tr('Decode from Webcam'))
         self.cameraIcon = QtGui.QIcon.fromTheme("camera")
         self.icon = QtGui.QLabel()
