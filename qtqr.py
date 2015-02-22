@@ -717,7 +717,7 @@ class MainWindow(QtGui.QMainWindow):
                                        "org.freedesktop.DBus.Properties")
         # Assuming Wireless is already enabled
         # Assuming we want wlan0
-        device_path = manager.getDeviceByIpIface("wlan0")
+        device_path = manager.GetDeviceByIpIface("wlan0")
         print "wlan0 path: ", device_path
          # Connect to the device's Wireless interface and obtain list of access
         # points.
