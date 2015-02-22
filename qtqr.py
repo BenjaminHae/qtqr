@@ -643,7 +643,7 @@ class MainWindow(QtGui.QMainWindow):
                 link = qr.data_decode[qr.data_type](qr.data)
             print u"Opening " + link
             if qr.data_type=="wifi":
-              self.connectWifi(data[0],data[1])
+              self.connectWifi(data[0],data[2])
             else:
               QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
         elif rsp == 0:
@@ -706,6 +706,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.tabs.setCurrentIndex(tabIndex)
     
     def connectWifi(self, ssid, passphrase):
+        #todo: encryption type
         bus = bus or dbus.SystemBus()
         bus = dbus.SystemBus()
         # Obtain handles to manager objects.
