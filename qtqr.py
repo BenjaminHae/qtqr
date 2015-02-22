@@ -644,7 +644,7 @@ class MainWindow(QtGui.QMainWindow):
             print u"Opening " + link
             if qr.data_type=="wifi":
               self.connectWifi(data[0],data[1])
-            else
+            else:
               QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
         elif rsp == 0:
             #Edit the code
