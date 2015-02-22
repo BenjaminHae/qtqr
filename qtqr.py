@@ -707,7 +707,6 @@ class MainWindow(QtGui.QMainWindow):
     
     def connectWifi(self, ssid, passphrase):
         #todo: encryption type
-        bus = bus or dbus.SystemBus()
         bus = dbus.SystemBus()
         # Obtain handles to manager objects.
         manager_bus_object = bus.get_object("org.freedesktop.NetworkManager",
