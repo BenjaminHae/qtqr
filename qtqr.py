@@ -9,7 +9,7 @@ http://www.omgubuntu.co.uk/2011/03/how-to-create-qr-codes-in-ubuntu/
 uses python-zbar for decoding from files and webcam
 """
 
-import sys, os
+import sys, os, dbus
 from math import ceil
 from PyQt4 import QtCore, QtGui, QtNetwork
 from qrtools import QR
@@ -601,7 +601,7 @@ class MainWindow(QtGui.QMainWindow):
             'sms': u"",
             'mms': u"",
             'geo': wanna + self.trUtf8("open it in Google Maps?"),
-            'wifi': u""
+            'wifi': wanna + self.trUtf8("connect?")
         }
         if action[qr.data_type] != u"":
             msgBox = QtGui.QMessageBox(
@@ -637,10 +637,15 @@ class MainWindow(QtGui.QMainWindow):
                 link = 'http://maps.google.com/maps?q=%s,%s' % data
             elif qr.data_type == 'bookmark':
                 link = data[1]
+            elif qr.data_type == 'wifi':
+                link = "connection"
             else:
                 link = qr.data_decode[qr.data_type](qr.data)
             print u"Opening " + link
-            QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
+            if qr.data_type=="wifi":
+              self.connectWifi(data[0],data[1])
+            else
+              QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
         elif rsp == 0:
             #Edit the code
             data = qr.data_decode[qr.data_type](qr.data)
@@ -699,7 +704,69 @@ class MainWindow(QtGui.QMainWindow):
                 self.wifiEncriptionType.setCurrentIndex({u"WEP":0,u"WPA":1,u"nopass":2}.get(data[1]) or 0)
                 self.wifiPasswordEdit.setText(data[2] or "")
                 self.tabs.setCurrentIndex(tabIndex)
+    
+    def connectWifi(self, ssid, passphrase):
+        bus = bus or dbus.SystemBus()
+        bus = dbus.SystemBus()
+        # Obtain handles to manager objects.
+        manager_bus_object = bus.get_object("org.freedesktop.NetworkManager",
+                                            "/org/freedesktop/NetworkManager")
+        manager = dbus.Interface(manager_bus_object,
+                                 "org.freedesktop.NetworkManager")
+        manager_props = dbus.Interface(manager_bus_object,
+                                       "org.freedesktop.DBus.Properties")
+        # Assuming Wireless is already enabled
+        # Assuming we want wlan0
+        device_path = manager.getDeviceByIpIface("wlan0")
+        print "wlan0 path: ", device_path
+         # Connect to the device's Wireless interface and obtain list of access
+        # points.
+        device = dbus.Interface(bus.get_object("org.freedesktop.NetworkManager",
+                                               device_path),
+                                "org.freedesktop.NetworkManager.Device.Wireless")
+        accesspoints_paths_list = device.GetAccessPoints()
 
+        # Identify our access point. We do this by comparing our desired SSID
+        # to the SSID reported by the AP.
+        our_ap_path = None
+        for ap_path in accesspoints_paths_list:
+            ap_props = dbus.Interface(
+                bus.get_object("org.freedesktop.NetworkManager", ap_path),
+                "org.freedesktop.DBus.Properties")
+            ap_ssid = ap_props.Get("org.freedesktop.NetworkManager.AccessPoint",
+                                   "Ssid")
+            # Returned SSID is a list of ASCII values. Let's convert it to a proper
+            # string.
+            str_ap_ssid = "".join(chr(i) for i in ap_ssid)
+            print ap_path, ": SSID =", str_ap_ssid
+            if str_ap_ssid == ssid:
+                our_ap_path = ap_path
+                break
+        if not our_ap_path:
+          print "AP not found :("
+          exit(2)
+        print "Our AP: ", our_ap_path
+        # At this point we have all the data we need. Let's prepare our connection
+        # parameters so that we can tell the NetworkManager what is the passphrase.
+        connection_params = {
+            "802-11-wireless": {
+                "security": "802-11-wireless-security",
+            },
+            "802-11-wireless-security": {
+                "key-mgmt": "wpa-psk",
+                "psk": passphrase
+            },
+        }
+        # Establish the connection.
+        settings_path, connection_path = manager.AddAndActivateConnection(
+            connection_params, device_path, our_ap_path)
+        print "settings_path =", settings_path
+        print "connection_path =", connection_path
+        # Connect
+        connection_props = dbus.Interface(
+          bus.get_object("org.freedesktop.NetworkManager", connection_path),
+          "org.freedesktop.DBus.Properties")
+      
     def decodeWebcam(self):
         vdDialog = VideoDevices()
         if vdDialog.exec_():
@@ -795,7 +862,6 @@ class VideoDevices(QtGui.QDialog):
                         dev, 
                         os.path.join("/dev/v4l/by-id", dev)
                     ])
-
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
