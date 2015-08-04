@@ -591,7 +591,7 @@ class MainWindow(QtGui.QMainWindow):
         }
         wanna = self.trUtf8("\n\nDo you want to ")
         action = {
-            'text': u"",
+            'text': wanna + self.trUtf8("copy to clipboard?"),
             'url': wanna + self.trUtf8("open it in a browser?"),
             'bookmark': wanna + self.trUtf8("open it in a browser?"),
             'email': wanna + self.trUtf8("send an e-mail to the address?"),
@@ -629,7 +629,9 @@ class MainWindow(QtGui.QMainWindow):
 
         if rsp == QtGui.QMessageBox.Yes:
             #Open Link
-            if qr.data_type == 'email':
+            if qr.data_type == 'text':
+                pass
+            elif qr.data_type == 'email':
                 link = 'mailto:'+ data
             elif qr.data_type == 'emailmessage':
                 link = 'mailto:%s?subject=%s&body=%s' % (data)
