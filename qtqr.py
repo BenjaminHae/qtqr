@@ -630,7 +630,7 @@ class MainWindow(QtGui.QMainWindow):
         if rsp == QtGui.QMessageBox.Yes:
             #Open Link
             if qr.data_type == 'text':
-                link = 'copy to clipboard'
+                link = "copy to clipboard"
             elif qr.data_type == 'email':
                 link = 'mailto:'+ data
             elif qr.data_type == 'emailmessage':
