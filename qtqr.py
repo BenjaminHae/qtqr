@@ -774,8 +774,9 @@ class MainWindow(QtGui.QMainWindow):
           "org.freedesktop.DBus.Properties")
       
     def decodeWebcam(self):
+        
         vdDialog = VideoDevices()
-        if vdDialog.exec_():
+        if len(vdDialog.VideoDevices) == 1 or vdDialog.exec_():
             if len(vdDialog.videoDevices) > 0:
                 device = vdDialog.videoDevices[vdDialog.videoDevice.currentIndex()][1]
                 qr = QR()
