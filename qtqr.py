@@ -630,7 +630,7 @@ class MainWindow(QtGui.QMainWindow):
         if rsp == QtGui.QMessageBox.Yes:
             #Open Link
             if qr.data_type == 'text':
-                pass
+                link = 'copy to clipboard'
             elif qr.data_type == 'email':
                 link = 'mailto:'+ data
             elif qr.data_type == 'emailmessage':
@@ -646,6 +646,10 @@ class MainWindow(QtGui.QMainWindow):
             print u"Opening " + link
             if qr.data_type=="wifi":
               self.connectWifi(data[0],data[2])
+            elif qr.data_type=="text":
+              cb = QtGui.QApplication.clipboard()
+              cb.clear(mode=cb.Clipboard)
+              cb.setText(data, mode=cb.Clipboard)
             else:
               QtGui.QDesktopServices.openUrl(QtCore.QUrl(link))
         elif rsp == 0:
